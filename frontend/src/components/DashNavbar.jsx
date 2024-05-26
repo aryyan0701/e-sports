@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+const DashNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('user'); // Remove user data from session storage
+    navigate('/login'); // Navigate to the login page
   };
 
   return (
@@ -50,13 +56,16 @@ const Navbar = () => {
         </button>
 
         {/* Navigation Links */}
-        <div className={`lg:flex ${isOpen ? 'block' : 'hidden'} space-x-4 gap-x-5` }>
-          <Link to="/register" className="text-white text-xl hover:text-gray-300">
-            Signup
+        <div className={`lg:flex ${isOpen ? 'block' : 'hidden'} space-x-4 gap-x-5`}>
+          <Link to="/profile" className="text-white text-xl hover:text-gray-300">
+            Profile
           </Link>
-          <Link to="/login" className="text-white text-xl hover:text-gray-300">
-            Login
-          </Link>
+          <button
+            onClick={handleLogout}
+            className="text-white text-xl hover:text-gray-300"
+          >
+            Logout
+          </button>
           {/* <Link to="/create-event" className="text-white hover:text-gray-300">
             Create Event
           </Link>
@@ -69,4 +78,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default DashNavbar;

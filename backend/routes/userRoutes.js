@@ -1,6 +1,7 @@
+// userRoutes.js
 const express = require('express');
-const { registerUser, loginUser } = require('../controllers/userController').default;
 const router = express.Router();
+const { registerUser, loginUser } = require('../controllers/userController');
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);

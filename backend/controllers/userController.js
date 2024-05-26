@@ -40,7 +40,6 @@ const registerUser = async (req, res) => {
     }
 };
 
-
 // Login User
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
@@ -77,4 +76,4 @@ const loginUser = async (req, res) => {
     }
 };
 
-export default { registerUser, loginUser };
+module.exports = { registerUser, loginUser };

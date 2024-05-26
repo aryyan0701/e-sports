@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -33,8 +34,11 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900">
-      <div className="w-full max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
+    <>
+    <Navbar/>
+  <div className="relative flex justify-center items-center min-h-screen bg-cover bg-center pt-10" style={{ backgroundImage: "url('https://images4.alphacoders.com/132/1320095.jpeg')" }}>
+      <div className="absolute inset-0 bg-black opacity-50"></div> {/* Optional: For better readability */}
+      <div className="relative z-10 w-full max-w-lg md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold text-center text-white">Register</h2>
         <form onSubmit={onSubmit} className="space-y-6">
           <div>
@@ -94,7 +98,9 @@ const Register = () => {
         </form>
         {message && <p className="mt-4 text-center text-sm text-gray-400">{message}</p>}
       </div>
-    </div>
+    </div>    
+    </>
+
   );
 };
 

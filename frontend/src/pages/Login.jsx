@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +21,7 @@ const Login = () => {
     try {
       const res = await axios.post('http://localhost:5000/api/users/login', formData);
       console.log(res.data);
+      sessionStorage.setItem('user', JSON.stringify(res.data));
       setMessage('Login successful! Redirecting...');
       setTimeout(() => {
         navigate('/dashboard'); // Redirect to a dashboard or home page after login
@@ -31,8 +33,11 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900">
-      <div className="w-full max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
+<>
+<Navbar/>
+<div className="relative flex justify-center items-center min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('https://images7.alphacoders.com/132/1320094.jpeg')" }}>
+      <div className="absolute inset-0 bg-black opacity-50"></div> {/* Optional: For better readability */}
+      <div className="relative z-10 w-full max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold text-center text-white">Login</h2>
         <form onSubmit={onSubmit} className="space-y-6">
           <div>
@@ -69,7 +74,10 @@ const Login = () => {
         {message && <p className="mt-4 text-center text-sm text-gray-400">{message}</p>}
       </div>
     </div>
-  );
+
+
+</>
+    );
 };
 
 export default Login;
