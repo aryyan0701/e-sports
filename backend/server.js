@@ -16,6 +16,9 @@ app.use('/api/users', userRoutes);
 const eventRoutes = require('./routes/eventRoutes');
 app.use('/api/events', eventRoutes);
 
+const users = require('./routes/userRoutes'); // Adjust the path as needed
+app.use('/api/users', users);
+
 
 // Import the middleware
 const authenticateUser = require('./middlewares/authMiddleware');

@@ -1,3 +1,4 @@
+// DashNavbar.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -10,8 +11,9 @@ const DashNavbar = () => {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem('user'); // Remove user data from session storage
-    navigate('/login'); // Navigate to the login page
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
+    navigate('/login');
   };
 
   return (
@@ -60,18 +62,9 @@ const DashNavbar = () => {
           <Link to="/profile" className="text-white text-xl hover:text-gray-300">
             Profile
           </Link>
-          <button
-            onClick={handleLogout}
-            className="text-white text-xl hover:text-gray-300"
-          >
+          <button onClick={handleLogout} className="text-white text-xl hover:text-gray-300">
             Logout
           </button>
-          {/* <Link to="/create-event" className="text-white hover:text-gray-300">
-            Create Event
-          </Link>
-          <Link to="/events" className="text-white hover:text-gray-300">
-            Event List
-          </Link> */}
         </div>
       </div>
     </nav>

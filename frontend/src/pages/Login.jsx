@@ -17,12 +17,13 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const res = await axios.post('http://localhost:5000/api/users/login', formData);
       console.log(res.data);
-      sessionStorage.setItem('user', JSON.stringify(res.data));
       setMessage('Login successful! Redirecting...');
+      sessionStorage.setItem('token', res.data.token);
+      sessionStorage.setItem('user', JSON.stringify(res.data.user)); // Store user data as JSON string
       setTimeout(() => {
         navigate('/dashboard'); // Redirect to a dashboard or home page after login
       }, 2000); // Redirect after 2 seconds
@@ -31,6 +32,7 @@ const Login = () => {
       setMessage('Login failed. Please check your credentials and try again.');
     }
   };
+  
 
   return (
 <>
