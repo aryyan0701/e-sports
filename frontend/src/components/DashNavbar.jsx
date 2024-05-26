@@ -1,6 +1,9 @@
 // DashNavbar.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaCircleUser } from "react-icons/fa6";
+import { MdOutlineAddCircleOutline } from "react-icons/md";
+import { PiGameControllerBold } from "react-icons/pi";
 
 const DashNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +20,7 @@ const DashNavbar = () => {
   };
 
   return (
-    <nav className="bg-indigo-600 p-4">
+    <nav className="bg-gray-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-white font-bold text-3xl"><a href="/">Battelfy</a></div>
 
@@ -58,13 +61,19 @@ const DashNavbar = () => {
         </button>
 
         {/* Navigation Links */}
-        <div className={`lg:flex ${isOpen ? 'block' : 'hidden'} space-x-4 gap-x-5`}>
-          <Link to="/profile" className="text-white text-xl hover:text-gray-300">
-            Profile
+        <div className={`lg:flex ${isOpen ? 'block' : 'hidden'} gap-x-4`}>
+        {/* <Link to="/eventlist" className="text-white text-2xl hover:text-gray-300">
+           Play
           </Link>
-          <button onClick={handleLogout} className="text-white text-xl hover:text-gray-300">
+        <Link to="/create-event" className="text-white text-2xl  hover:text-gray-300">
+           Events
+          </Link> */}
+          {/* <button onClick={handleLogout} className="text-white text-2xl hover:text-gray-300">
             Logout
-          </button>
+          </button> */}
+          <Link to="/profile" className="text-white text-2xl mt-[6px] hover:text-gray-300">
+            <FaCircleUser/>
+          </Link>
         </div>
       </div>
     </nav>
