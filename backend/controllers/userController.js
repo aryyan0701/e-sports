@@ -23,7 +23,7 @@ const registerUser = async (req, res) => {
         await user.save();
         console.log("User saved:", user);
 
-        const payload = { user: { id: user.id } };
+        const payload = { user: { id: user.id, username: user.username, email: user.email, role: user.role } };
 
         jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 360000 }, (err, token) => {
             if (err) {
@@ -31,7 +31,7 @@ const registerUser = async (req, res) => {
                 throw err;
             }
             console.log("JWT token generated");
-            res.json({ token });
+            res.json({ token, user: payload.user });
         });
 
     } catch (err) {
@@ -40,7 +40,6 @@ const registerUser = async (req, res) => {
     }
 };
 
-// Login User
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
@@ -57,17 +56,11 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
 
-        const payload = {
-            user: {
-                id: user.id
-            }
-        };
+        const payload = { user: { id: user.id, username: user.username, email: user.email, role: user.role } };
 
-        jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: 360000
-        }, (err, token) => {
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 360000 }, (err, token) => {
             if (err) throw err;
-            res.json({ token });
+            res.json({ token, user: payload.user });
         });
 
     } catch (err) {
@@ -75,5 +68,6 @@ const loginUser = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
+
 
 module.exports = { registerUser, loginUser };
