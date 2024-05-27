@@ -1,8 +1,8 @@
-// DashBoard.js
 import React from 'react';
 import DashNavbar from '../components/DashNavbar';
 import TypingAnimation from '../components/TypingAnimation';
 import GameSlider from '../components/GameSlider';
+import { Link } from 'react-router-dom';
 
 function DashBoard() {
   const words = ["dynamic", "interactive", "amazing", "incredible"];
@@ -36,7 +36,7 @@ function DashBoard() {
           {/* Event Creation Button */}
           <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center">
             <button className="text-indigo-600 font-semibold text-lg hover:text-indigo-800 focus:outline-none">
-              Create Event
+              <Link to="/create-event">Create Event</Link>
             </button>
           </div>
           
