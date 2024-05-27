@@ -68,9 +68,9 @@ const DashNavbar = () => {
         <Link to="/create-event" className="text-white text-2xl  hover:text-gray-300">
            Events
           </Link> */}
-          {/* <button onClick={handleLogout} className="text-white text-2xl hover:text-gray-300">
+          <button onClick={handleLogout} className="text-white text-2xl hover:text-gray-300">
             Logout
-          </button> */}
+          </button>
           <Link to="/profile" className="text-white text-2xl mt-[6px] hover:text-gray-300">
             <FaCircleUser/>
           </Link>
