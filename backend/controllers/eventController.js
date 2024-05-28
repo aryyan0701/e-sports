@@ -1,4 +1,5 @@
 const Event = require('../models/event');
+const Registration = require('../models/registration'); // Assuming you have a registration model
 
 // Create Event
 const createEvent = async (req, res) => {
@@ -8,8 +9,6 @@ const createEvent = async (req, res) => {
         if (!contact) {
             return res.status(400).json({ msg: 'Contact information is required' });
         }
-
-        console.log('Creating event with:', { name, description, date, contact });
 
         const event = new Event({
             name,
@@ -37,4 +36,31 @@ const getEvents = async (req, res) => {
     }
 };
 
-module.exports = { createEvent, getEvents };
+// Register for Event
+const registerEvent = async (req, res) => {
+    const { id } = req.params;
+    const { email, contactNumber, teamName, teamMemberCount } = req.body;
+
+    try {
+        const event = await Event.findById(id);
+        if (!event) {
+            return res.status(404).json({ msg: 'Event not found' });
+        }
+
+        const registration = new Registration({
+            eventId: id,
+            email,
+            contactNumber,
+            teamName,
+            teamMemberCount
+        });
+
+        await registration.save();
+        res.json({ msg: 'Registration successful', registration });
+    } catch (err) {
+        console.error('Error registering for event:', err.message);
+        res.status(500).send('Server error');
+    }
+};
+
+module.exports = { createEvent, getEvents, registerEvent };
