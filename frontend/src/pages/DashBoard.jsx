@@ -29,7 +29,7 @@ function DashBoard() {
           {/* Registration Button */}
           <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center">
             <button className="text-indigo-600 font-semibold text-lg hover:text-indigo-800 focus:outline-none">
-              Register for Event
+             <Link to="/eventlist">Register for Event</Link>
             </button>
           </div>
           

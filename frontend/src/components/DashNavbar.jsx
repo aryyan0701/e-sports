@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaCircleUser } from "react-icons/fa6";
-import { MdOutlineAddCircleOutline } from "react-icons/md";
-import { PiGameControllerBold } from "react-icons/pi";
 
 const DashNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,12 +60,6 @@ const DashNavbar = () => {
 
         {/* Navigation Links */}
         <div className={`lg:flex ${isOpen ? 'block' : 'hidden'} gap-x-4`}>
-        {/* <Link to="/eventlist" className="text-white text-2xl hover:text-gray-300">
-           Play
-          </Link>
-        <Link to="/create-event" className="text-white text-2xl  hover:text-gray-300">
-           Events
-          </Link> */}
           <button onClick={handleLogout} className="text-white text-2xl hover:text-gray-300">
             Logout
           </button>

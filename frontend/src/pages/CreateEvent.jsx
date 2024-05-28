@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import DashNavbar from '../components/DashNavbar';
 
 const CreateEvent = () => {
@@ -10,6 +11,7 @@ const CreateEvent = () => {
     contact: '',
   });
   const [message, setMessage] = useState('');
+  const navigate = useNavigate(); // Make sure to call useNavigate
 
   const { name, description, date, contact } = formData;
 
@@ -21,13 +23,16 @@ const CreateEvent = () => {
     try {
       const res = await axios.post('http://localhost:5000/api/events/create', formData);
       console.log(res.data);
-      setMessage('Event created successfully!');
+      setMessage('Event created successfully! Redirecting to event list...');
       setFormData({
         name: '',
         description: '',
         date: '',
         contact: '',
       });
+      setTimeout(() => {
+        navigate('/eventlist'); // Redirect to the event list page after 2 seconds
+      }, 2000);
     } catch (err) {
       console.error(err.response.data);
       setMessage('Event creation failed. Please try again.');

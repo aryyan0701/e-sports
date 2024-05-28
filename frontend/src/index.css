@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.modal {
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-300 p-6 rounded-lg shadow-lg outline-none w-full max-w-full lg:max-w-[55rem] max-h-[40rem] overflow-y-auto pt-5;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .modal-open {
+    @apply opacity-100;
+  }
+  
+  .modal-close {
+    @apply opacity-0;
+    pointer-events: none;
+  }
+  
+  .overlay {
+    @apply fixed inset-0 bg-gray-800 bg-opacity-50;
+  }
+  
+  .close-button {
+    @apply bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-red-300;
+  }
+  
+  /* Additional styles to prevent horizontal overflow */
+  body {
+    @apply overflow-x-hidden;
+  }
+  
+  
+  /* Add responsive classes for smaller screens */
+  @media (max-width: 768px) {
+    .modal {
+      @apply max-w-[90vw]; /* Adjust width for medium screens */
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .modal {
+      @apply max-w-[85vw]; /* Adjust width for small screens */
+    }
+  }

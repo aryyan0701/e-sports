@@ -26,4 +26,15 @@ const createEvent = async (req, res) => {
     }
 };
 
+// Get Events
+const getEvents = async (req, res) => {
+    try {
+        const events = await Event.find();
+        res.json(events);
+    } catch (err) {
+        console.error('Error fetching events:', err.message);
+        res.status(500).send('Server error');
+    }
+};
+
 module.exports = { createEvent, getEvents };
