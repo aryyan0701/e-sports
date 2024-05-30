@@ -44,16 +44,19 @@ const Profile = () => {
 
   const fetchRegistrationHistory = async (userEmail) => {
     try {
-      const res = await axios.get('http://localhost:5000/api/events');
-      const events = res.data;
+      // Fetch user registrations from the separate collection
+      const res = await axios.get(`http://localhost:5000/api/registrations?email=${userEmail}`);
+      const registrations = res.data;
 
-      const userRegistrations = events
-        .filter(event => event.registrations.some(reg => reg.email === userEmail))
-        .map(event => {
-          const userReg = event.registrations.find(reg => reg.email === userEmail);
-          return { ...event, userReg };
-        });
+      // Fetch event details for each registration
+      const eventPromises = registrations.map(reg =>
+        axios.get(`http://localhost:5000/api/events/${reg.eventId}`).then(eventRes => ({
+          ...reg,
+          event: eventRes.data
+        }))
+      );
 
+      const userRegistrations = await Promise.all(eventPromises);
       setRegistrationHistory(userRegistrations);
     } catch (err) {
       console.error('Failed to fetch registration history:', err.message);
@@ -117,35 +120,35 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="mt-8 relative z-10 w-full max-w-lg md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
+        <div className="mt-8 relative z-10 w-full max-w-5xl p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h3 className="text-2xl font-bold text-center text-white mb-4">
             {user.role === 'player' ? 'Your Upcoming Events' : 'Your Organized Events'}
           </h3>
           {user.role === 'player' ? (
             registrationHistory.length > 0 ? (
-              <ul className="space-y-4">
+              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {registrationHistory.map((registration) => (
-                  <li key={registration._id} className="bg-gray-700 p-4 rounded-lg shadow-lg">
-                    <p className="text-lg font-medium text-gray-300">Event: {registration.name}</p>
-                    <p className="text-lg text-gray-300">Date: {new Date(registration.date).toLocaleDateString()}</p>
-                    <p className="text-lg text-gray-300">Team Name: {registration.userReg.teamName}</p>
-                  </li>
+                  <div key={registration._id} className="bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <p className="text-lg font-medium text-gray-300">Event: {registration.event.name}</p>
+                    <p className="text-lg text-gray-300">Date: {new Date(registration.event.date).toLocaleDateString()}</p>
+                    <p className="text-lg text-gray-300">Team Name: {registration.teamName}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             ) : (
               <p className="text-lg text-center text-gray-300">No registrations found.</p>
             )
           ) : (
             organizedEvents.length > 0 ? (
-              <ul className="space-y-4">
+              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {organizedEvents.map((event) => (
-                  <li key={event._id} className="bg-gray-700 p-4 rounded-lg shadow-lg">
+                  <div key={event._id} className="bg-gray-700 p-4 rounded-lg shadow-lg">
                     <p className="text-lg font-medium text-gray-300">Event: {event.name}</p>
                     <p className="text-lg text-gray-300">Date: {new Date(event.date).toLocaleDateString()}</p>
                     <p className="text-lg text-gray-300">Description: {event.description}</p>
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             ) : (
               <p className="text-lg text-center text-gray-300">No organized events found.</p>
             )
