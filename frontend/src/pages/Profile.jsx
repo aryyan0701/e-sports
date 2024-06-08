@@ -32,45 +32,49 @@ const Profile = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      if (user.role === 'player') {
-        fetchRegistrationHistory(user.email);
-      } else if (user.role === 'organizer') {
-        fetchOrganizedEvents(user._id);
-      }
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     if (user.role === 'player') {
+  //       fetchRegistrationHistory(user.email);
+  //     } else if (user.role === 'organizer') {
+  //       fetchOrganizedEvents(user._id);
+  //     }
+  //   }
+  // }, [user]);
 
-  const fetchRegistrationHistory = async (userEmail) => {
-    try {
-      // Fetch user registrations from the separate collection
-      const res = await axios.get(`http://localhost:5000/api/registrations?email=${userEmail}`);
-      const registrations = res.data;
-
-      // Fetch event details for each registration
-      const eventPromises = registrations.map(reg =>
-        axios.get(`http://localhost:5000/api/events/${reg.eventId}`).then(eventRes => ({
-          ...reg,
-          event: eventRes.data
-        }))
-      );
-
-      const userRegistrations = await Promise.all(eventPromises);
-      setRegistrationHistory(userRegistrations);
-    } catch (err) {
-      console.error('Failed to fetch registration history:', err.message);
-    }
-  };
-
-  const fetchOrganizedEvents = async (organizerId) => {
-    try {
-      const res = await axios.get(`http://localhost:5000/api/events?organizer=${organizerId}`);
-      setOrganizedEvents(res.data);
-    } catch (err) {
-      console.error('Failed to fetch organized events:', err.message);
-    }
-  };
+  
+  // const fetchRegistrationHistory = async (userEmail) => {
+  //   try {
+  //     console.log(`Fetching registration history for ${userEmail}`);
+  //     const res = await axios.get(`http://localhost:5000/api/registrations?email=${userEmail}`);
+  //     console.log('API Response:', res.data);
+  //     const registrations = res.data;
+  
+  //     // Fetch event details for each registration
+  //     const eventPromises = registrations.map(reg =>
+  //       axios.get(`http://localhost:5000/api/events/${reg.eventId}`).then(eventRes => ({
+  //         ...reg,
+  //         event: eventRes.data
+  //       }))
+  //     );
+  
+  //     const userRegistrations = await Promise.all(eventPromises);
+  //     console.log('User Registrations:', userRegistrations);
+  //     setRegistrationHistory(userRegistrations);
+  //   } catch (err) {
+  //     console.error('Failed to fetch registration history:', err.message);
+  //   }
+  // };
+  
+  
+  // const fetchOrganizedEvents = async (organizerId) => {
+  //   try {
+  //     const res = await axios.get(`http://localhost:5000/api/events?organizer=${organizerId}`);
+  //     setOrganizedEvents(res.data);
+  //   } catch (err) {
+  //     console.error('Failed to fetch organized events:', err.message);
+  //   }
+  // };
 
   if (!user) {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
@@ -120,7 +124,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="mt-8 relative z-10 w-full max-w-5xl p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
+        {/* <div className="mt-8 relative z-10 w-full max-w-5xl p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h3 className="text-2xl font-bold text-center text-white mb-4">
             {user.role === 'player' ? 'Your Upcoming Events' : 'Your Organized Events'}
           </h3>
@@ -153,7 +157,7 @@ const Profile = () => {
               <p className="text-lg text-center text-gray-300">No organized events found.</p>
             )
           )}
-        </div>
+        </div> */}
       </div>
     </>
   );

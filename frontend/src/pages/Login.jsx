@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 const Login = () => {
@@ -71,6 +71,7 @@ const Login = () => {
             >
               Login
             </button>
+          <p className="text-sm text-center">Don't have an account..? <Link to='/register' className="font-semibold text-white">Click Here</Link></p>
           </form>
           {message && <p className="mt-4 text-center text-sm text-gray-400">{message}</p>}
         </div>
