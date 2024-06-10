@@ -5,14 +5,14 @@ import GameSlider from '../components/GameSlider';
 import { Link } from 'react-router-dom';
 
 function DashBoard() {
-  const words = ["dynamic", "interactive", "amazing", "incredible"];
+  const words = ["Welcome to Battelfy", "Where Gamers Unite and Compete", "Elevate Your e-Sports Experience", "Empowering e-Sports Heroes"];
   return (
     <>
       <DashNavbar />
-      <div className="relative flex justify-center items-center min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('https://displays.riotgames.com/static/content-original-runeterra-mounttargon-29f374929568be3073201d2512af6731.jpg')" }}>
+      <div className="relative flex justify-center items-center min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('https://i.pinimg.com/originals/7d/2a/9f/7d2a9fca264faa93561f72b5fc885fec.gif')" }}>
         <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
           <div className="text-4xl text-white font-bold text-center">
-            Welcome to Your <TypingAnimation words={words} /> Dashboard
+            <TypingAnimation words={words} /> 
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@ function DashBoard() {
       
       {/* Additional Content */}
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Registration Button */}
           <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center">
             <button className="text-indigo-600 font-semibold text-lg hover:text-indigo-800 focus:outline-none">
@@ -37,13 +37,6 @@ function DashBoard() {
           <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center">
             <button className="text-indigo-600 font-semibold text-lg hover:text-indigo-800 focus:outline-none">
               <Link to="/create-event">Create Event</Link>
-            </button>
-          </div>
-          
-          {/* More Features */}
-          <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center">
-            <button className="text-indigo-600 font-semibold text-lg hover:text-indigo-800 focus:outline-none">
-              More Features
             </button>
           </div>
         </div>

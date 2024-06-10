@@ -104,7 +104,7 @@ const Profile = () => {
           </div>
         </div>
       </nav>
-      <div className="relative flex flex-col justify-center items-center min-h-screen bg-cover bg-center pt-10" style={{ backgroundImage: "url('https://images4.alphacoders.com/132/1320095.jpeg')" }}>
+      <div className="relative flex flex-col justify-center items-center min-h-screen bg-cover bg-center pt-10" style={{ backgroundImage: "url('https://img.freepik.com/free-vector/gradient-neon-light-background_23-2149332915.jpg')" }}>
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 w-full max-w-lg md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-white mb-6">Your Details</h2>
