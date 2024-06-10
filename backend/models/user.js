@@ -22,17 +22,8 @@ const UserSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
   },
-  address: {
-    type: String,
-  },
   dateOfBirth: {
     type: Date,
-  },
-  gender: {
-    type: String,
-  },
-  profilePicture: {
-    type: String,
   },
   bio: {
     type: String,

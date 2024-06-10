@@ -118,8 +118,16 @@ const Profile = () => {
               <p className="text-xl text-white">{user.email}</p>
             </div>
             <div className="text-center">
+              <p className="text-lg font-medium text-gray-300">Phone Number</p>
+              <p className="text-xl text-white">{user.phoneNumber}</p>
+            </div>
+            <div className="text-center">
               <p className="text-lg font-medium text-gray-300">Your Role</p>
               <p className="text-xl text-white">{user.role}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-lg font-medium text-gray-300">Bio</p>
+              <p className="text-xl text-white">{user.bio}</p>
             </div>
           </div>
         </div>
