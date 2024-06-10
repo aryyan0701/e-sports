@@ -25,7 +25,7 @@ function DashBoard() {
           {/* Additional images */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <img src="https://hpro-web-assets.s3.amazonaws.com/insights/uploads/2020/08/HARMAN_Esports-Arena_horiz.jpg" alt="Image 1" className="w-full h-auto rounded-md" />
+            <img src="https://i.ytimg.com/vi/4xkZaXCHYCw/maxresdefault.jpg" alt="Image 1" className="w-full h-auto rounded-md" />
              <div className="bg-gray-300 shadow-lg rounded-lg p-4 flex items-center justify-center mt-5">
             <button className="text-indigo-600 font-semibold text-lg hover:text-indigo-800 focus:outline-none">
              <Link to="/eventlist">Register for Event <RiTeamFill  className='text-2xl text-black text-center inline pb-1'/> </Link>
@@ -33,7 +33,7 @@ function DashBoard() {
           </div>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <img src="https://hpro-web-assets.s3.amazonaws.com/insights/uploads/2020/08/HARMAN_Esports-Arena_horiz.jpg" alt="Image 2" className="w-full h-auto rounded-md" />
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/a6eb3868395361.5b5b27978a636.jpg" alt="Image 2" className="w-full h-auto rounded-md" />
               {/* Event Creation Button */}
           <div className="bg-gray-300 shadow-lg rounded-lg p-4 flex items-center justify-center mt-5">
             <button className="text-indigo-600 font-semibold text-lg hover:text-indigo-800 focus:outline-none">

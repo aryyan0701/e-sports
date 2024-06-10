@@ -6,7 +6,7 @@ const eventSchema = new mongoose.Schema({
     description: { type: String, required: true },
     date: { type: Date, required: true },
     contact: { type: String, required: true }, 
-    prizepool: { type: String, required: true } // Ensure contact field is present and required
+    prizepool: { type: String, required: true } 
 });
 
 module.exports = mongoose.model('Event', eventSchema);
