@@ -9,11 +9,17 @@ const Register = () => {
     email: '',
     password: '',
     role: 'player',
+   phoneNumber: '',
+    address: '',
+    dateOfBirth: '',
+    gender: '',
+    profilePicture: '',
+    bio: ''
   });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const { username, email, password, role } = formData;
+  const { username, email, password, role, phoneNumber, address, dateOfBirth, gender, profilePicture, bio  } = formData;
 
   const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -91,6 +97,35 @@ const Register = () => {
               <option value="organizer">Organizer</option>
             </select>
           </div>
+          <div>
+          <label>Phone Number</label>
+          <input type="text" name="phoneNumber" value={phoneNumber} onChange={onChange} />
+        </div>
+        <div>
+          <label>Address</label>
+          <input type="text" name="address" value={address} onChange={onChange} />
+        </div>
+        <div>
+          <label>Date of Birth</label>
+          <input type="date" name="dateOfBirth" value={dateOfBirth} onChange={onChange} />
+        </div>
+        <div>
+          <label>Gender</label>
+          <select name="gender" value={gender} onChange={onChange}>
+            <option value="">Select</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label>Profile Picture URL</label>
+          <input type="text" name="profilePicture" value={profilePicture} onChange={onChange} />
+        </div>
+        <div>
+          <label>Bio</label>
+          <textarea name="bio" value={bio} onChange={onChange}></textarea>
+        </div>
           <button 
             type="submit" 
             className="w-full px-4 py-2 font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
