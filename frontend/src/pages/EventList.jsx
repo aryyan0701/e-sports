@@ -95,6 +95,7 @@ const EventList = () => {
 
   return (
     <>
+
       <nav className="bg-gray-800 p-4">
         <div className="container mx-auto flex justify-between items-center">
           <div className="text-white font-bold text-3xl"><a href="/">Battelfy</a></div>
@@ -125,8 +126,9 @@ const EventList = () => {
                 <p className="text-gray-700 mb-4">{event.description}</p>
                 <p className="text-gray-500 mb-2"><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
                 <p className="text-gray-500 mb-4"><strong>Contact:</strong> {event.contact}</p>
+                <p className="text-gray-500 mb-4"><strong>Prizepool:</strong> {event.prizepool}</p>
                 {user && user.role !== 'organizer' ? (
-                  <button className="text-indigo-600 font-semibold text-lg bg-black p-2 rounded hover:text-indigo-800 focus:outline-none" onClick={() => openModal(event)}>
+                  <button className="text-black font-semibold text-lg bg-gray-300 p-2 rounded hover:text-indigo-800 focus:outline-none" onClick={() => openModal(event)}>
                     Register
                   </button>
                 ) : (

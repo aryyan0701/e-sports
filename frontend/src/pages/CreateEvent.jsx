@@ -10,13 +10,14 @@ const CreateEvent = () => {
     description: '',
     date: '',
     contact: '',
+    prizepool:''
   });
   const [message, setMessage] = useState('');
   const [user, setUser] = useState(null);
   const [isOrganizer, setIsOrganizer] = useState(false);
   const navigate = useNavigate();
 
-  const { name, description, date, contact } = formData;
+  const { name, description, date, contact, prizepool } = formData;
 
   useEffect(() => {
     const userData = sessionStorage.getItem('user');
@@ -49,6 +50,7 @@ const CreateEvent = () => {
         description: '',
         date: '',
         contact: '',
+        prizepool: '',
       });
       setTimeout(() => {
         navigate('/eventlist');
@@ -111,6 +113,18 @@ const CreateEvent = () => {
                   onChange={onChange}
                   required
                   placeholder="Enter organizer contact"
+                  className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+              <div>
+                <label htmlFor="contact" className="block text-sm font-medium text-gray-300">Prize Pool</label>
+                <input
+                  type="text"
+                  name="prizepool"
+                  value={prizepool}
+                  onChange={onChange}
+                  required
+                  placeholder="Enter Prize Pool"
                   className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
                 />
               </div>

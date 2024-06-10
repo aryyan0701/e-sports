@@ -3,7 +3,7 @@ const Registration = require('../models/registration'); // Assuming you have a r
 
 // Create Event
 const createEvent = async (req, res) => {
-    const { name, description, date, contact } = req.body;
+    const { name, description, date, contact, prizepool } = req.body;
 
     try {
         if (!contact) {
@@ -14,7 +14,8 @@ const createEvent = async (req, res) => {
             name,
             description,
             date,
-            contact
+            contact, 
+            prizepool
         });
 
         await event.save();

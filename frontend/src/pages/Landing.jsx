@@ -118,7 +118,7 @@ const Landing = () => {
         </div>
       </div>
           {/* Footer */}
-          <footer className="bg-gray-800 text-white py-8">
+          <footer className="bg-gray-800 text-white py-8 px-8">
           <div className="container mx-auto">
             <div className="flex justify-between items-center">
               <div>

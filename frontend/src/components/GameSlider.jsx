@@ -36,7 +36,7 @@ const GameSlider = () => {
     <Slider {...settings}>
       {games.map((game) => (
         <div key={game.id}>
-          <div className="p-4 border border-gray-200 rounded-md">
+          <div className="p-4 border border-gray-200 rounded-md hover:scale-105">
             <img src={game.image} alt={game.name} className="w-full h-auto rounded-md" />
             <p className="text-center mt-2">{game.name}</p>
           </div>
