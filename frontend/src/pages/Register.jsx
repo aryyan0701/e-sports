@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { ClipLoader } from 'react-spinners'; // Import the spinner
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const Register = () => {
   });
   const [profileImage, setProfileImage] = useState(null);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
   const { username, email, password, role, phoneNumber, bio } = formData;
@@ -24,6 +26,7 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading
     const formData = new FormData();
     formData.append('username', username);
     formData.append('email', email);
@@ -52,6 +55,8 @@ const Register = () => {
     } catch (err) {
       console.error(err.response.data);
       setMessage('Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
 
@@ -100,7 +105,18 @@ const Register = () => {
                   className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
                 />
               </div>
-              <div>
+              <div >
+                <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-300">Phone Number</label>
+                <input 
+                  type="text" 
+                  name="phoneNumber" 
+                  value={phoneNumber} 
+                  onChange={onChange} 
+                  placeholder="Enter your Number" 
+                  className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500" 
+                />
+              </div>
+              <div className="sm:col-span-2">
                 <label htmlFor="role" className="block text-sm font-medium text-gray-300">Role</label>
                 <select 
                   name="role" 
@@ -111,17 +127,6 @@ const Register = () => {
                   <option value="player">Player</option>
                   <option value="organizer">Organizer</option>
                 </select>
-              </div>
-              <div>
-                <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-300">Phone Number</label>
-                <input 
-                  type="text" 
-                  name="phoneNumber" 
-                  value={phoneNumber} 
-                  onChange={onChange} 
-                  placeholder="Enter your Number" 
-                  className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500" 
-                />
               </div>
               <div className="sm:col-span-2">
                 <label htmlFor="profileImage" className="block text-sm font-medium text-gray-300">Profile Image</label>
@@ -146,8 +151,13 @@ const Register = () => {
             <button 
               type="submit" 
               className="w-full px-4 py-2 font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+              disabled={isLoading} // Disable button while loading
             >
-              Register
+              {isLoading ? (
+                <ClipLoader size={20} color={"#fff"} /> // Show spinner while loading
+              ) : (
+                "Register"
+              )}
             </button>
             <p className="text-sm text-center">Already have an account..? <Link to='/login' className="font-semibold text-white">Click Here</Link></p>
           </form>

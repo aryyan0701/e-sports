@@ -68,25 +68,21 @@ const Profile = () => {
                 <img src={`http://localhost:5000${user.profileImage}`} alt="Profile" className="w-30 h-26 rounded-full" />
               </div>
             )}
-            <div className="text-center grid grid-cols-2 gap-2">
+            <div className="text-start grid grid-cols-2 gap-2">
+              <div>
               <p className="text-lg font-medium text-gray-300">Username</p>
+              <p className="text-lg font-medium text-gray-300 mt-2">Email</p>
+              <p className="text-lg font-medium text-gray-300 mt-2">Phone Number</p>
+              <p className="text-lg font-medium text-gray-300 mt-2">Your Role</p>
+              <p className="text-lg font-medium text-gray-300 mt-2">Bio</p>
+              </div>
+              <div>
               <p className="text-xl text-white">{user.username}</p>
-            </div>
-            <div className="text-center grid grid-cols-2 gap-2">
-              <p className="text-lg font-medium text-gray-300">Email</p>
-              <p className="text-xl text-white">{user.email}</p>
-            </div>
-            <div className="text-center grid grid-cols-2 gap-2">
-              <p className="text-lg font-medium text-gray-300">Phone Number</p>
-              <p className="text-xl text-white">{user.phoneNumber}</p>
-            </div>
-            <div className="text-center grid grid-cols-2 gap-2">
-              <p className="text-lg font-medium text-gray-300">Your Role</p>
-              <p className="text-xl text-white">{user.role}</p>
-            </div>
-            <div className="text-center grid grid-cols-2 gap-2">
-              <p className="text-lg font-medium text-gray-300">Bio</p>
-              <p className="text-xl text-white">{user.bio}</p>
+              <p className="text-xl text-white mt-2">{user.email}</p>
+              <p className="text-xl text-white mt-2">{user.phoneNumber}</p>
+              <p className="text-xl text-white mt-2">{user.role}</p>
+              <p className="text-xl text-white mt-2">{user.bio}</p>
+              </div>
             </div>
           </div>
         </div>
