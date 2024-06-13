@@ -5,7 +5,8 @@ const registrationSchema = new mongoose.Schema({
     email: { type: String, required: true },
     contactNumber: { type: String, required: true },
     teamName: { type: String, required: true },
-    teamMemberCount: { type: Number, required: true }
+    teamMemberCount: { type: Number, required: true },
+    address: {type: String, required:true}
 });
 
 module.exports = mongoose.model('Registration', registrationSchema);

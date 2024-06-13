@@ -53,7 +53,8 @@ const registerEvent = async (req, res) => {
             email,
             contactNumber,
             teamName,
-            teamMemberCount
+            teamMemberCount,
+            address
         });
 
         await registration.save();
