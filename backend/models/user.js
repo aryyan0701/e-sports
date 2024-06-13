@@ -22,11 +22,11 @@ const UserSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
   },
-  dateOfBirth: {
-    type: Date,
-  },
   bio: {
     type: String,
+  },
+  profileImage: {
+    type: String,  // Store the file path of the profile image
   },
   createdAt: {
     type: Date,
@@ -34,5 +34,4 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// Check if the model is already compiled before defining it
 module.exports = mongoose.models.User || mongoose.model("User", UserSchema);

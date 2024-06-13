@@ -4,8 +4,6 @@ import axios from 'axios';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
-  const [registrationHistory, setRegistrationHistory] = useState([]);
-  const [organizedEvents, setOrganizedEvents] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -31,50 +29,6 @@ const Profile = () => {
       }
     }
   }, []);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     if (user.role === 'player') {
-  //       fetchRegistrationHistory(user.email);
-  //     } else if (user.role === 'organizer') {
-  //       fetchOrganizedEvents(user._id);
-  //     }
-  //   }
-  // }, [user]);
-
-  
-  // const fetchRegistrationHistory = async (userEmail) => {
-  //   try {
-  //     console.log(`Fetching registration history for ${userEmail}`);
-  //     const res = await axios.get(`http://localhost:5000/api/registrations?email=${userEmail}`);
-  //     console.log('API Response:', res.data);
-  //     const registrations = res.data;
-  
-  //     // Fetch event details for each registration
-  //     const eventPromises = registrations.map(reg =>
-  //       axios.get(`http://localhost:5000/api/events/${reg.eventId}`).then(eventRes => ({
-  //         ...reg,
-  //         event: eventRes.data
-  //       }))
-  //     );
-  
-  //     const userRegistrations = await Promise.all(eventPromises);
-  //     console.log('User Registrations:', userRegistrations);
-  //     setRegistrationHistory(userRegistrations);
-  //   } catch (err) {
-  //     console.error('Failed to fetch registration history:', err.message);
-  //   }
-  // };
-  
-  
-  // const fetchOrganizedEvents = async (organizerId) => {
-  //   try {
-  //     const res = await axios.get(`http://localhost:5000/api/events?organizer=${organizerId}`);
-  //     setOrganizedEvents(res.data);
-  //   } catch (err) {
-  //     console.error('Failed to fetch organized events:', err.message);
-  //   }
-  // };
 
   if (!user) {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
@@ -109,63 +63,33 @@ const Profile = () => {
         <div className="relative z-10 w-full max-w-lg md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-white mb-6">Your Details</h2>
           <div className="flex flex-col items-center space-y-4">
-            <div className="text-center">
+            {user.profileImage && (
+              <div className="text-center">
+                <img src={`http://localhost:5000${user.profileImage}`} alt="Profile" className="w-30 h-26 rounded-full" />
+              </div>
+            )}
+            <div className="text-center grid grid-cols-2 gap-2">
               <p className="text-lg font-medium text-gray-300">Username</p>
               <p className="text-xl text-white">{user.username}</p>
             </div>
-            <div className="text-center">
+            <div className="text-center grid grid-cols-2 gap-2">
               <p className="text-lg font-medium text-gray-300">Email</p>
               <p className="text-xl text-white">{user.email}</p>
             </div>
-            <div className="text-center">
+            <div className="text-center grid grid-cols-2 gap-2">
               <p className="text-lg font-medium text-gray-300">Phone Number</p>
               <p className="text-xl text-white">{user.phoneNumber}</p>
             </div>
-            <div className="text-center">
+            <div className="text-center grid grid-cols-2 gap-2">
               <p className="text-lg font-medium text-gray-300">Your Role</p>
               <p className="text-xl text-white">{user.role}</p>
             </div>
-            <div className="text-center">
+            <div className="text-center grid grid-cols-2 gap-2">
               <p className="text-lg font-medium text-gray-300">Bio</p>
               <p className="text-xl text-white">{user.bio}</p>
             </div>
           </div>
         </div>
-
-        {/* <div className="mt-8 relative z-10 w-full max-w-5xl p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
-          <h3 className="text-2xl font-bold text-center text-white mb-4">
-            {user.role === 'player' ? 'Your Upcoming Events' : 'Your Organized Events'}
-          </h3>
-          {user.role === 'player' ? (
-            registrationHistory.length > 0 ? (
-              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                {registrationHistory.map((registration) => (
-                  <div key={registration._id} className="bg-gray-700 p-4 rounded-lg shadow-lg">
-                    <p className="text-lg font-medium text-gray-300">Event: {registration.event.name}</p>
-                    <p className="text-lg text-gray-300">Date: {new Date(registration.event.date).toLocaleDateString()}</p>
-                    <p className="text-lg text-gray-300">Team Name: {registration.teamName}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-lg text-center text-gray-300">No registrations found.</p>
-            )
-          ) : (
-            organizedEvents.length > 0 ? (
-              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                {organizedEvents.map((event) => (
-                  <div key={event._id} className="bg-gray-700 p-4 rounded-lg shadow-lg">
-                    <p className="text-lg font-medium text-gray-300">Event: {event.name}</p>
-                    <p className="text-lg text-gray-300">Date: {new Date(event.date).toLocaleDateString()}</p>
-                    <p className="text-lg text-gray-300">Description: {event.description}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-lg text-center text-gray-300">No organized events found.</p>
-            )
-          )}
-        </div> */}
       </div>
     </>
   );

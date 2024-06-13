@@ -1,6 +1,19 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const path = require("path");
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../uploads/')); // Ensure correct path
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // Append extension
+  }
+});
+const upload = multer({ storage: storage });
 
 const registerUser = async (req, res) => {
   const {
@@ -9,9 +22,9 @@ const registerUser = async (req, res) => {
     password,
     role,
     phoneNumber,
-    dateOfBirth,
     bio,
   } = req.body;
+  const profileImage = req.file ? `/uploads/${req.file.filename}` : null; // Update this line
 
   try {
     let user = await User.findOne({ email });
@@ -25,8 +38,8 @@ const registerUser = async (req, res) => {
       password,
       role,
       phoneNumber,
-      dateOfBirth,
       bio,
+      profileImage,
     });
 
     const salt = await bcrypt.genSalt(10);
@@ -41,8 +54,8 @@ const registerUser = async (req, res) => {
         email: user.email,
         role: user.role,
         phoneNumber: user.phoneNumber,
-        dateOfBirth: user.dateOfBirth,
         bio: user.bio,
+        profileImage: user.profileImage,
       },
     };
 
@@ -59,7 +72,6 @@ const registerUser = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
-
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -83,6 +95,7 @@ const loginUser = async (req, res) => {
         username: user.username,
         email: user.email,
         role: user.role,
+        profileImage: user.profileImage,
       },
     };
 
@@ -101,4 +114,4 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+module.exports = { registerUser, loginUser, upload };

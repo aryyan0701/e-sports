@@ -10,21 +10,35 @@ const Register = () => {
     password: '',
     role: 'player',
     phoneNumber: '',
-    dateOfBirth: '',
     bio: ''
   });
+  const [profileImage, setProfileImage] = useState(null);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const { username, email, password, role, phoneNumber, dateOfBirth, bio } = formData;
+  const { username, email, password, role, phoneNumber, bio } = formData;
 
   const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const onImageChange = (e) => setProfileImage(e.target.files[0]);
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('role', role);
+    formData.append('phoneNumber', phoneNumber);
+    formData.append('bio', bio);
+    if (profileImage) formData.append('profileImage', profileImage);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/users/register', formData);
+      const res = await axios.post('http://localhost:5000/api/users/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       console.log(res.data);
 
       // Store the complete user data in session storage
@@ -48,7 +62,7 @@ const Register = () => {
         <div className="absolute inset-0 bg-black opacity-50"></div> {/* Optional: For better readability */}
         <div className="relative z-10 w-full max-w-lg md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-white">Register</h2>
-          <form onSubmit={onSubmit} className="space-y-6">
+          <form onSubmit={onSubmit} className="space-y-6" encType="multipart/form-data">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="username" className="block text-sm font-medium text-gray-300">Username</label>
@@ -109,13 +123,12 @@ const Register = () => {
                   className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500" 
                 />
               </div>
-              <div>
-                <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-300">Date of Birth</label>
+              <div className="sm:col-span-2">
+                <label htmlFor="profileImage" className="block text-sm font-medium text-gray-300">Profile Image</label>
                 <input 
-                  type="date" 
-                  name="dateOfBirth" 
-                  value={dateOfBirth} 
-                  onChange={onChange} 
+                  type="file" 
+                  name="profileImage" 
+                  onChange={onImageChange} 
                   className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500" 
                 />
               </div>
