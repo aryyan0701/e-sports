@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { ClipLoader } from 'react-spinners'; // Import the spinner
+import { ClipLoader } from 'react-spinners'; 
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +15,7 @@ const Register = () => {
   });
   const [profileImage, setProfileImage] = useState(null);
   const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(false); 
   const navigate = useNavigate();
 
   const { username, email, password, role, phoneNumber, bio } = formData;
@@ -26,7 +26,7 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Start loading
+    setIsLoading(true); 
     const formData = new FormData();
     formData.append('username', username);
     formData.append('email', email);
@@ -56,7 +56,7 @@ const Register = () => {
       console.error(err.response.data);
       setMessage('Registration failed. Please try again.');
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { ClipLoader } from 'react-spinners'; 
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const Login = () => {
     password: '',
   });
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false); 
   const navigate = useNavigate();
 
   const { email, password } = formData;
@@ -17,6 +19,7 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true); 
   
     try {
       const res = await axios.post('http://localhost:5000/api/users/login', formData);
@@ -28,6 +31,8 @@ const Login = () => {
     } catch (err) {
       console.error(err.response.data);
       setMessage('Login failed. Please check your credentials and try again.');
+    }finally {
+      setIsLoading(false);
     }
   };
   
@@ -66,8 +71,13 @@ const Login = () => {
             <button 
               type="submit" 
               className="w-full px-4 py-2 font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+              disabled={isLoading} // Disable button while loading
             >
-              Login
+              {isLoading ? (
+                <ClipLoader size={20} color={"#fff"} /> // Show spinner while loading
+              ) : (
+                "Login"
+              )}
             </button>
           <p className="text-sm text-center">Don't have an account..? <Link to='/register' className="font-semibold text-white">Click Here</Link></p>
           </form>
