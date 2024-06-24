@@ -15,17 +15,15 @@ const EventList = () => {
     contactNumber: "",
     teamName: "",
     teamMemberCount: "",
-    address: "", // Initialize address here
+    address: "",
   });
 
-  const [isOpen, setIsOpen] = useState(false); // Added state for managing navigation menu
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Retrieve the user data from sessionStorage
     const userData = sessionStorage.getItem("user");
-
     if (userData) {
       try {
         const parsedUserData = JSON.parse(userData);
@@ -172,17 +170,17 @@ const EventList = () => {
                   {event.name.toUpperCase()}
                 </h3>
                 <p className="text-gray-500 mb-2">
-                  <strong>Description:</strong> {event.description}
-                </p>
-                <p className="text-gray-500 mb-2">
                   <strong>Date:</strong>{" "}
                   {new Date(event.date).toLocaleDateString()}
                 </p>
                 <p className="text-gray-500 mb-2">
                   <strong>Contact:</strong> {event.contact}
                 </p>
-                <p className="text-gray-500 mb-4">
+                <p className="text-gray-500 mb-2">
                   <strong>Prizepool:</strong> {event.prizepool}
+                </p>
+                <p className="text-gray-500 mb-4">
+                  <strong>Description:</strong> {event.description}
                 </p>
                 {user && user.role !== "organizer" ? (
                   <button
@@ -288,7 +286,7 @@ const EventList = () => {
                     required
                   />
                 </div>
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-2 mb-4">
                   <label
                     htmlFor="address"
                     className="text-gray-700 text-sm font-bold mb-2"

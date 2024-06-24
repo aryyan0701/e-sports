@@ -23,7 +23,7 @@ const Login = () => {
   
     try {
       const res = await axios.post('http://localhost:5000/api/users/login', formData);
-      console.log(res.data);
+      localStorage.setItem('token', res.data.token); // Store token in local storage
       setMessage('Login successful! Redirecting...');
       setTimeout(() => {
         navigate('/dashboard'); // Redirect to a dashboard or home page after login
@@ -31,10 +31,11 @@ const Login = () => {
     } catch (err) {
       console.error(err.response.data);
       setMessage('Login failed. Please check your credentials and try again.');
-    }finally {
+    } finally {
       setIsLoading(false);
     }
   };
+  
   
   return (
     <>

@@ -5,6 +5,8 @@ import axios from 'axios';
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [createdEvents, setCreatedEvents] = useState([]);
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -18,8 +20,16 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const userData = sessionStorage.getItem('user');
+    const fetchEvents = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/events");
+        setEvents(res.data);
+      } catch (err) {
+        console.error("Error fetching events:", err.message);
+      }
+    };
 
+    const userData = sessionStorage.getItem('user');
     if (userData) {
       try {
         const parsedUserData = JSON.parse(userData);
@@ -28,7 +38,16 @@ const Profile = () => {
         console.error('Failed to parse user data:', error);
       }
     }
+
+    fetchEvents();
   }, []);
+
+  useEffect(() => {
+    if (user && events.length > 0) {
+      const filteredEvents = events.filter(event => event.contact === user.email);
+      setCreatedEvents(filteredEvents);
+    }
+  }, [user, events]);
 
   if (!user) {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
@@ -60,6 +79,8 @@ const Profile = () => {
       </nav>
       <div className="relative flex flex-col justify-center items-center min-h-screen bg-cover bg-center pt-10" style={{ backgroundImage: "url('https://img.freepik.com/free-vector/gradient-neon-light-background_23-2149332915.jpg')" }}>
         <div className="absolute inset-0 bg-black opacity-50"></div>
+
+        //user details
         <div className="relative z-10 w-full max-w-lg md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-white mb-6">Your Details</h2>
           <div className="flex flex-col items-center space-y-4">
@@ -70,21 +91,59 @@ const Profile = () => {
             )}
             <div className="text-start grid grid-cols-2 gap-2">
               <div>
-              <p className="text-lg font-medium text-gray-300">Username</p>
-              <p className="text-lg font-medium text-gray-300 mt-2">Email</p>
-              <p className="text-lg font-medium text-gray-300 mt-2">Phone Number</p>
-              <p className="text-lg font-medium text-gray-300 mt-2">Your Role</p>
-              <p className="text-lg font-medium text-gray-300 mt-2">Bio</p>
+                <p className="text-lg font-medium text-gray-300">Username</p>
+                <p className="text-lg font-medium text-gray-300 mt-2">Email</p>
+                <p className="text-lg font-medium text-gray-300 mt-2">Phone Number</p>
+                <p className="text-lg font-medium text-gray-300 mt-2">Your Role</p>
+                <p className="text-lg font-medium text-gray-300 mt-2">Bio</p>
               </div>
               <div>
-              <p className="text-xl text-white">{user.username}</p>
-              <p className="text-xl text-white mt-2">{user.email}</p>
-              <p className="text-xl text-white mt-2">{user.phoneNumber}</p>
-              <p className="text-xl text-white mt-2">{user.role}</p>
-              <p className="text-xl text-white mt-2">{user.bio}</p>
+                <p className="text-xl text-white">{user.username}</p>
+                <p className="text-xl text-white mt-2">{user.email}</p>
+                <p className="text-xl text-white mt-2">{user.phoneNumber}</p>
+                <p className="text-xl text-white mt-2">{user.role}</p>
+                <p className="text-xl text-white mt-2">{user.bio}</p>
               </div>
             </div>
           </div>
+        </div>
+
+        //events details
+        <div className="relative z-10 w-full max-w-lg md:max-w-4xl p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg mt-8">
+          {user.role === "organizer" ? (
+            <>
+              <h2 className="text-3xl font-bold text-center text-white mb-6">Events You Created</h2>
+              <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              {createdEvents.map((event) => (
+                <div key={event._id} className="bg-white shadow-md rounded-lg p-6">
+                  <h3 className="text-xl font-bold mb-2">{event.name.toUpperCase()}</h3>
+                <p className="text-gray-500 mb-2">
+                  <strong>Date:</strong>{" "}
+                  {new Date(event.date).toLocaleDateString()}
+                </p>
+                <p className="text-gray-500 mb-2">
+                  <strong>Contact:</strong> {event.contact}
+                </p>
+                <p className="text-gray-500 mb-2">
+                  <strong>Prizepool:</strong> {event.prizepool}
+                </p>
+                <p className="text-gray-500 mb-4">
+                  <strong>Description:</strong> {event.description}
+                </p>
+                </div>
+              ))}
+            </div>
+            </>
+          ) : (
+            <>
+              <h2 className="text-3xl font-bold text-center text-white mb-6">Your Upcoming Events</h2>
+              {/* {events.map((event) => (
+                <div key={event._id} className="bg-white shadow-md rounded-lg p-6">
+                  <h3 className="text-xl font-bold mb-2">{event.name.toUpperCase()}</h3>
+                </div>
+              ))} */}
+            </>
+          )}
         </div>
       </div>
     </>

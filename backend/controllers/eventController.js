@@ -1,5 +1,5 @@
 const Event = require('../models/event');
-const Registration = require('../models/registration'); // Assuming you have a registration model
+const Registration = require('../models/registration');
 
 // Create Event
 const createEvent = async (req, res) => {
@@ -37,10 +37,13 @@ const getEvents = async (req, res) => {
     }
 };
 
-// Register for Event
+// Register Event
 const registerEvent = async (req, res) => {
+    console.log('Request User:', req.user);
     const { id } = req.params;
-    const { email, contactNumber, teamName, teamMemberCount } = req.body;
+    const { email, contactNumber, teamName, teamMemberCount, address } = req.body;
+
+    console.log('Request Body:', req.body);
 
     try {
         const event = await Event.findById(id);
@@ -64,6 +67,5 @@ const registerEvent = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
-
 
 module.exports = { createEvent, getEvents, registerEvent };
