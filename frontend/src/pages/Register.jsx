@@ -6,10 +6,10 @@ import { ClipLoader } from 'react-spinners';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
-    role: 'player',
+    role: '',
     phoneNumber: '',
     bio: ''
   });
@@ -18,7 +18,7 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false); 
   const navigate = useNavigate();
 
-  const { username, email, password, role, phoneNumber, bio } = formData;
+  const { name, email, password, role, phoneNumber, bio } = formData;
 
   const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -28,7 +28,7 @@ const Register = () => {
     e.preventDefault();
     setIsLoading(true); 
     const formData = new FormData();
-    formData.append('username', username);
+    formData.append('name', name);
     formData.append('email', email);
     formData.append('password', password);
     formData.append('role', role);
@@ -45,8 +45,8 @@ const Register = () => {
       console.log(res.data);
 
       // Store the complete user data in session storage
-      sessionStorage.setItem('token', res.data.token);
-      sessionStorage.setItem('user', JSON.stringify(res.data.user));
+      sessionStorage .setItem('token', res.data.token);
+      sessionStorage .setItem('user', JSON.stringify(res.data.user));
       
       setMessage('Registration successful! Redirecting to login page...');
       setTimeout(() => {
@@ -70,14 +70,14 @@ const Register = () => {
           <form onSubmit={onSubmit} className="space-y-6" encType="multipart/form-data">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-300">Username</label>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-300">Name</label>
                 <input 
                   type="text" 
-                  name="username" 
-                  value={username} 
+                  name="name" 
+                  value={name} 
                   onChange={onChange} 
                   required 
-                  placeholder="Enter your username" 
+                  placeholder="Enter your name" 
                   className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
                 />
               </div>
@@ -124,6 +124,7 @@ const Register = () => {
                   onChange={onChange} 
                   className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
                 >
+                  <option value="select">Select</option>
                   <option value="player">Player</option>
                   <option value="organizer">Organizer</option>
                 </select>

@@ -17,14 +17,14 @@ const upload = multer({ storage: storage });
 
 const registerUser = async (req, res) => {
   const {
-    username,
+    name,
     email,
     password,
     role,
     phoneNumber,
     bio,
   } = req.body;
-  const profileImage = req.file ? `/uploads/${req.file.filename}` : null; // Update this line
+  const profileImage = req.file ? `/uploads/${req.file.filename}` : null;
 
   try {
     let user = await User.findOne({ email });
@@ -33,7 +33,7 @@ const registerUser = async (req, res) => {
     }
 
     user = new User({
-      username,
+      name,
       email,
       password,
       role,
@@ -50,7 +50,7 @@ const registerUser = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
-        username: user.username,
+        name: user.name,
         email: user.email,
         role: user.role,
         phoneNumber: user.phoneNumber,
@@ -69,9 +69,11 @@ const registerUser = async (req, res) => {
       }
     );
   } catch (err) {
+    console.error(err.message);
     res.status(500).send("Server error");
   }
 };
+
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -92,12 +94,15 @@ const loginUser = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
-        username: user.username,
+        name: user.name,
         email: user.email,
         role: user.role,
+        phoneNumber: user.phoneNumber, // Added
+        bio: user.bio, // Added
         profileImage: user.profileImage,
       },
     };
+
 
     jwt.sign(
       payload,
@@ -113,5 +118,8 @@ const loginUser = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
+
+
+
 
 module.exports = { registerUser, loginUser, upload };

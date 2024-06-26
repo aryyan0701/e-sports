@@ -23,7 +23,10 @@ const Login = () => {
   
     try {
       const res = await axios.post('http://localhost:5000/api/users/login', formData);
-      localStorage.setItem('token', res.data.token); // Store token in local storage
+      sessionStorage.setItem('token', res.data.token);
+      sessionStorage.setItem('user', JSON.stringify(res.data.user));
+      console.log('Token set in localStorage:', sessionStorage.getItem('token'));
+console.log('User data in localStorage:', JSON.parse(sessionStorage.getItem('user')));
       setMessage('Login successful! Redirecting...');
       setTimeout(() => {
         navigate('/dashboard'); // Redirect to a dashboard or home page after login
