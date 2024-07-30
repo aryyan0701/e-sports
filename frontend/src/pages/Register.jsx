@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { ClipLoader } from 'react-spinners'; 
+import { signupUser } from '../redux/auth/authApi';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -15,8 +16,11 @@ const Register = () => {
   });
   const [profileImage, setProfileImage] = useState(null);
   const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false); 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const authStatus = useSelector((state) => state.auth.status);
+  const authError = useSelector((state) => state.auth.error);
 
   const { name, email, password, role, phoneNumber, bio } = formData;
 
@@ -25,8 +29,8 @@ const Register = () => {
   const onImageChange = (e) => setProfileImage(e.target.files[0]);
 
   const onSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true); 
+    e.preventDefault(); 
+
     const formData = new FormData();
     formData.append('name', name);
     formData.append('email', email);
@@ -36,28 +40,17 @@ const Register = () => {
     formData.append('bio', bio);
     if (profileImage) formData.append('profileImage', profileImage);
 
-    try {
-      const res = await axios.post('http://localhost:5000/api/users/register', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      console.log(res.data);
 
-      // Store the complete user data in session storage
-      sessionStorage .setItem('token', res.data.token);
-      sessionStorage .setItem('user', JSON.stringify(res.data.user));
-      
-      setMessage('Registration successful! Redirecting to login page...');
-      setTimeout(() => {
-        navigate('/login');
-      }, 2000); // Redirect after 2 seconds
-    } catch (err) {
-      console.error(err.response.data);
-      setMessage('Registration failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+    dispatch(signupUser(formData)).then((res) =>{
+      if(res.type === 'auth/register/fulfilled'){
+        setMessage('Registration successful! Redirecting to login page...');
+        setTimeout(() =>{
+          navigate('/login')
+        }, 2000)
+      } else{
+        setMessage('Registration failed. Please try again.');
+      }
+    })
   };
 
   return (
@@ -152,17 +145,18 @@ const Register = () => {
             <button 
               type="submit" 
               className="w-full px-4 py-2 font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-              disabled={isLoading} // Disable button while loading
+              disabled={authStatus === 'loading'} 
             >
-              {isLoading ? (
-                <ClipLoader size={20} color={"#fff"} /> // Show spinner while loading
+              {authStatus === 'loading'  ? (
+                <ClipLoader size={20} color={"#fff"} /> 
               ) : (
                 "Register"
               )}
             </button>
             <p className="text-sm text-center">Already have an account..? <Link to='/login' className="font-semibold text-white">Click Here</Link></p>
           </form>
-          {message && <p className="mt-4 text-center text-sm text-gray-400">{message}</p>}
+          {authStatus === 'failed' && <p className="mt-4 text-center text-sm text-red-400">{authError}</p>}
+          {authStatus === 'succeeded' && <p className="mt-4 text-center text-sm text-green-400">{message}</p>}
         </div>
       </div>
     </>
