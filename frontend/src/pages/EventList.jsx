@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
+import { FaTrash } from "react-icons/fa";
+import { checkUser } from "../redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/auth/authSlice";
 
 Modal.setAppElement("#root");
 
@@ -20,19 +24,13 @@ const EventList = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+
+  const { role } = useSelector((state) => state.user);
 
   useEffect(() => {
-    const userData = sessionStorage.getItem("user");
-    if (userData) {
-      try {
-        const parsedUserData = JSON.parse(userData);
-        setUser(parsedUserData);
-      } catch (error) {
-        console.error("Failed to parse user data:", error);
-      }
-    }
-  }, []);
+    dispatch(checkUser("User data not found"));
+  }, [dispatch]);
 
   const openModal = (event) => {
     setSelectedEvent(event);
@@ -49,8 +47,7 @@ const EventList = () => {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user");
+    dispatch(logout);
     navigate("/login");
   };
 
@@ -164,8 +161,16 @@ const EventList = () => {
             {events.map((event) => (
               <div
                 key={event._id}
-                className="bg-white shadow-md rounded-lg p-6"
+                className="relative bg-white shadow-md rounded-lg p-6"
               >
+                {role === "organizer" && (
+                  <button
+                    className="absolute top-3 right-4 text-red-500 hover:text-red-700"
+                    // onClick={() => handleDelete(event._id)}
+                  >
+                    <FaTrash size={20} />
+                  </button>
+                )}
                 <h3 className="text-xl font-bold mb-2">
                   {event.name.toUpperCase()}
                 </h3>
@@ -182,17 +187,13 @@ const EventList = () => {
                 <p className="text-gray-500 mb-4">
                   <strong>Description:</strong> {event.description}
                 </p>
-                {user && user.role !== "organizer" ? (
+                {role !== "organizer" && (
                   <button
                     className="text-black font-semibold text-lg bg-gray-300 p-2 rounded focus:outline-none"
                     onClick={() => openModal(event)}
                   >
                     Register
                   </button>
-                ) : (
-                  <p className="text-red-600 font-semibold">
-                    Organizers cannot register for events
-                  </p>
                 )}
               </div>
             ))}
