@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from '../redux/auth/authSlice';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [events, setEvents] = useState([]);
   const [createdEvents, setCreatedEvents] = useState([]);
+  const [registeredEvents, setRegisteredEvents] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('user');
-    navigate('/login');
+    dispatch(logout());
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -29,18 +32,39 @@ const Profile = () => {
       }
     };
 
+    const fetchRegistrations = async () => {
+      try {
+        if (user) {
+          const res = await axios.get(`http://localhost:5000/api/registrations/${user.email}`);
+          const registrations = res.data;
+          
+          // Extract event IDs from registrations
+          const eventIds = registrations.map(reg => reg.eventId);
+          
+          // Fetch events based on registration IDs
+          const upcomingEvents = events.filter(event => 
+            eventIds.includes(event._id.toString()) && new Date(event.date) > new Date()
+          );
+          setRegisteredEvents(upcomingEvents);
+        }
+      } catch (err) {
+        console.error("Error fetching registrations:", err.message);
+      }
+    };
+
     const userData = sessionStorage.getItem('user');
     if (userData) {
       try {
         const parsedUserData = JSON.parse(userData);
         setUser(parsedUserData);
+        fetchRegistrations();
       } catch (error) {
         console.error('Failed to parse user data:', error);
       }
     }
 
     fetchEvents();
-  }, []);
+  }, [user, events]);
 
   useEffect(() => {
     if (user && events.length > 0) {
@@ -114,30 +138,49 @@ const Profile = () => {
             <>
               <h2 className="text-3xl font-bold text-center text-white mb-6">Events You Created</h2>
               <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {createdEvents.map((event) => (
-                <div key={event._id} className="bg-white shadow-md rounded-lg p-6">
-                  <h3 className="text-xl font-bold mb-2">{event.name.toUpperCase()}</h3>
-                  <p className="text-gray-500 mb-2">
-                    <strong>Date:</strong>{" "}
-                    {new Date(event.date).toLocaleDateString()}
-                  </p>
-                  <p className="text-gray-500 mb-2">
-                    <strong>Contact:</strong> {event.contact}
-                  </p>
-                  <p className="text-gray-500 mb-2">
-                    <strong>Prizepool:</strong> {event.prizepool}
-                  </p>
-                  <p className="text-gray-500 mb-4">
-                    <strong>Description:</strong> {event.description}
-                  </p>
-                </div>
-              ))}
+                {createdEvents.map((event) => (
+                  <div key={event._id} className="bg-white shadow-md rounded-lg p-6">
+                    <h3 className="text-xl font-bold mb-2">{event.name.toUpperCase()}</h3>
+                    <p className="text-gray-500 mb-2">
+                      <strong>Date:</strong>{" "}
+                      {new Date(event.date).toLocaleDateString()}
+                    </p>
+                    <p className="text-gray-500 mb-2">
+                      <strong>Contact:</strong> {event.contact}
+                    </p>
+                    <p className="text-gray-500 mb-2">
+                      <strong>Prizepool:</strong> {event.prizepool}
+                    </p>
+                    <p className="text-gray-500 mb-4">
+                      <strong>Description:</strong> {event.description}
+                    </p>
+                  </div>
+                ))}
               </div>
             </>
           ) : (
             <>
               <h2 className="text-3xl font-bold text-center text-white mb-6">Your Upcoming Events</h2>
-              {/* Add logic for displaying user's events here */}
+              <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {registeredEvents.map((event) => (
+                  <div key={event._id} className="bg-white shadow-md rounded-lg p-6">
+                    <h3 className="text-xl font-bold mb-2">{event.name.toUpperCase()}</h3>
+                    <p className="text-gray-500 mb-2">
+                      <strong>Date:</strong>{" "}
+                      {new Date(event.date).toLocaleDateString()}
+                    </p>
+                    <p className="text-gray-500 mb-2">
+                      <strong>Contact:</strong> {event.contact}
+                    </p>
+                    <p className="text-gray-500 mb-2">
+                      <strong>Prizepool:</strong> {event.prizepool}
+                    </p>
+                    <p className="text-gray-500 mb-4">
+                      <strong>Description:</strong> {event.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </>
           )}
         </div>

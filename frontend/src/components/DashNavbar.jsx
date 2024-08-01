@@ -2,32 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaCircleUser } from "react-icons/fa6";
 import { RiAdminFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { checkUser } from '../redux/user/userSlice';
+import { logout } from '../redux/auth/authSlice';
 
 const DashNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { role } = useSelector((state) => state.user);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {
-    const userData = sessionStorage.getItem('user');
-    if (userData) {
-      try {
-        const parsedUser = JSON.parse(userData);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error('Failed to parse user data:', error);
-      }
-    }
-  }, []);
+    useEffect(() => {
+    dispatch(checkUser("User data not found"));
+  }, [dispatch]);
 
   const handleLogout = () => {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('user');
-    navigate('/login');
+    dispatch(logout);
+    navigate("/login");
   };
 
   return (
@@ -56,7 +52,7 @@ const DashNavbar = () => {
           <button onClick={handleLogout} className="text-white text-2xl hover:text-gray-300">
             Logout
           </button>
-          {user && user.role !== 'organizer' ? (
+          {role !== 'organizer' ? (
             <Link to="/profile" className="text-white text-2xl mt-[6px] hover:text-gray-300">
             <FaCircleUser />
           </Link>

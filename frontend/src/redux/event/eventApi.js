@@ -15,3 +15,31 @@ export const createEvent = createAsyncThunk(
     }
   }
 );
+
+
+export const getEvents = createAsyncThunk(
+  'event/getEvents',
+  async (thunkAPI) => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/events');
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const regiForEvent = createAsyncThunk(
+  'event/register',
+  async ({ eventId, formData }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`http://localhost:5000/api/events/${eventId}/register`, formData);
+      return response.data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

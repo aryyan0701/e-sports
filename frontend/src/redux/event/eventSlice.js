@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createEvent } from './eventApi';
+import { createEvent, getEvents, regiForEvent } from './eventApi';
 
 const initialState = {
+  events: [],
   status: 'idle',
   error: null,
   message: ''
@@ -29,7 +30,31 @@ const eventSlice = createSlice({
       .addCase(createEvent.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload || 'Failed to create event';
-      });
+      })
+      .addCase(getEvents.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getEvents.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.events = action.payload;
+      })
+      .addCase(getEvents.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload || 'Failed to load events';
+      })
+      .addCase(regiForEvent.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+        state.message = '';
+      })
+      .addCase(regiForEvent.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.message = 'Event registration successfully!';
+      })
+      .addCase(regiForEvent.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload || 'Failed to register in event';
+      })
   }
 });
 

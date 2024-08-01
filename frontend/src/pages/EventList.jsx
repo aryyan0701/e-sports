@@ -6,12 +6,11 @@ import { FaTrash } from "react-icons/fa";
 import { checkUser } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/auth/authSlice";
+import { getEvents, regiForEvent } from "../redux/event/eventApi";
 
 Modal.setAppElement("#root");
 
 const EventList = () => {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [formData, setFormData] = useState({
@@ -25,11 +24,18 @@ const EventList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const events = useSelector((state) => state.event.events);
+  const status = useSelector((state) => state.event.status);
+  const error = useSelector((state) => state.event.error);
 
   const { role } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(checkUser("User data not found"));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getEvents());
   }, [dispatch]);
 
   const openModal = (event) => {
@@ -47,7 +53,7 @@ const EventList = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logout);
+    dispatch(logout());
     navigate("/login");
   };
 
@@ -60,41 +66,30 @@ const EventList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post(
-        `http://localhost:5000/api/events/${selectedEvent._id}/register`,
-        formData
-      );
+    dispatch(regiForEvent({ eventId: selectedEvent._id, formData }))
+    .unwrap()
+    .then(() => {
       alert("Registration successful!");
       closeModal();
       navigate("/dashboard");
-    } catch (err) {
-      console.error("Registration failed:", err.message);
+    })
+    .catch((err) => {
+      console.error("Registration failed:", err);
       alert("Registration failed. Please try again.");
-    }
+    });
+   
   };
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/api/events");
-        setEvents(res.data);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching events:", err.message);
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
-  if (loading) {
+  if (status === "loading") {
     return (
       <div className="flex justify-center items-center min-h-screen">
         Loading...
       </div>
     );
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
   return (
