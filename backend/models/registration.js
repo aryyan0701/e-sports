@@ -1,32 +1,37 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const registrationSchema = new Schema({
+  userId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "User", 
+    required: true 
+  },
   eventId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Event',
-    required: true
+    ref: "Event",
+    required: true,
   },
   email: {
     type: String,
-    required: true
+    required: true,
   },
   contactNumber: {
     type: String,
-    required: true
+    required: true,
   },
   teamName: {
     type: String,
-    required: true
+    required: true,
   },
   teamMemberCount: {
     type: Number,
-    required: true
+    required: true,
   },
   address: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
-module.exports = mongoose.model('Registration', registrationSchema);
+module.exports = mongoose.model("Registration", registrationSchema);

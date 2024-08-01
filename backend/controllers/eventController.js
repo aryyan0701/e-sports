@@ -39,9 +39,10 @@ const getEvents = async (req, res) => {
 
 // Register Event
 const registerEvent = async (req, res) => {
-    console.log('Request User:', req.user);
+    console.log('Request User:', req.user); // assuming req.user contains the logged-in user's data
     const { id } = req.params;
     const { email, contactNumber, teamName, teamMemberCount, address } = req.body;
+    const userId = req.user._id; // Get the user ID from req.user
 
     console.log('Request Body:', req.body);
 
@@ -57,7 +58,8 @@ const registerEvent = async (req, res) => {
             contactNumber,
             teamName,
             teamMemberCount,
-            address
+            address,
+            userId // Include userId in the registration
         });
 
         await registration.save();
@@ -68,4 +70,24 @@ const registerEvent = async (req, res) => {
     }
 };
 
-module.exports = { createEvent, getEvents, registerEvent };
+// Get Registered Events for Player
+const getRegisteredEventsForPlayer = async (req, res) => {
+    const { userId } = req.params; // Get the userId from the request params
+
+    try {
+        const registrations = await Registration.find({ userId });
+        if (!registrations.length) {
+            return res.status(404).json({ msg: 'No registrations found' });
+        }
+
+        const eventIds = registrations.map(reg => reg.eventId);
+        const events = await Event.find({ _id: { $in: eventIds } });
+
+        res.json(events);
+    } catch (err) {
+        console.error('Error fetching registered events:', err.message);
+        res.status(500).send('Server error');
+    }
+};
+
+module.exports = { createEvent, getEvents, registerEvent, getRegisteredEventsForPlayer };
