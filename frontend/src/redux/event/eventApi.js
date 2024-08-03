@@ -1,11 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// Function to get the token
+const getToken = () => sessionStorage.getItem('token');
+
 export const createEvent = createAsyncThunk(
   'event/createEvent',
   async (eventData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/events/create', eventData);
+      const token = getToken();
+      const response = await axios.post('http://localhost:5000/api/events/create', eventData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (error) {
       if (!error.response) {
@@ -15,7 +23,6 @@ export const createEvent = createAsyncThunk(
     }
   }
 );
-
 
 export const getEvents = createAsyncThunk(
   'event/getEvents',
@@ -33,7 +40,12 @@ export const regiForEvent = createAsyncThunk(
   'event/register',
   async ({ eventId, formData }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/events/${eventId}/register`, formData);
+      const token = getToken();
+      const response = await axios.post(`http://localhost:5000/api/events/${eventId}/register`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (error) {
       if (!error.response) {

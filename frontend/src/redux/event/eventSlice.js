@@ -25,11 +25,12 @@ const eventSlice = createSlice({
       })
       .addCase(createEvent.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.message = 'Event created successfully!';
+        state.message = action.payload.message; 
+        state.events.push(action.payload.event);
       })
       .addCase(createEvent.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload || 'Failed to create event';
+        state.error = action.payload.message || 'Failed to create event';
       })
       .addCase(getEvents.pending, (state) => {
         state.status = 'loading';
@@ -54,7 +55,7 @@ const eventSlice = createSlice({
       .addCase(regiForEvent.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload || 'Failed to register in event';
-      })
+      });
   }
 });
 

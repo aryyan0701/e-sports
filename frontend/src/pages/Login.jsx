@@ -49,8 +49,7 @@ const Login = () => {
             "url('https://images7.alphacoders.com/132/1320094.jpeg')",
         }}
       >
-        <div className="absolute inset-0 bg-black opacity-50"></div>{" "}
-        {/* Optional: For better readability */}
+        <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 w-full max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-white">Login</h2>
           <form onSubmit={onSubmit} className="space-y-6">
@@ -91,10 +90,10 @@ const Login = () => {
             <button
               type="submit"
               className="w-full px-4 py-2 font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-              disabled={authStatus === 'loading'} 
+              disabled={authStatus === 'loading'}
             >
               {authStatus === "loading" ? (
-                <ClipLoader size={20} color={"#fff"} /> 
+                <ClipLoader size={20} color={"#fff"} />
               ) : (
                 "Login"
               )}

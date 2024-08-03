@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import DashNavbar from '../components/DashNavbar';
 import { FiExternalLink } from 'react-icons/fi';
 import { createEvent } from '../redux/event/eventApi';
-import {clearMessage} from '../redux/event/eventSlice';
+import { clearMessage } from '../redux/event/eventSlice';
 import { checkUser } from "../redux/user/userSlice";
 
 const CreateEvent = () => {
@@ -132,40 +132,40 @@ const CreateEvent = () => {
                 />
               </div>
               <div>
-                <label htmlFor="prizepool" className="block text-sm font-medium text-gray-300">Prize Pool</label>
+                <label htmlFor="prizepool" className="block text-sm font-medium text-gray-300">Prizepool</label>
                 <input
                   type="text"
                   name="prizepool"
                   value={prizepool}
                   onChange={onChange}
                   required
-                  placeholder="Enter Prize Pool"
+                  placeholder="Enter prizepool"
                   className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full px-4 py-2 font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                className="w-full py-2 mt-4 font-semibold text-white bg-indigo-500 rounded-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Create Event
               </button>
             </form>
           ) : (
-            <div>
-              <p className="mt-4 text-center text-sm text-gray-400">Only organizers can create events.</p>
-              <p className="mt-4 text-center text-xl font-semibold text-gray-400">
-                <Link to="/eventlist">Visit Events Here<FiExternalLink className="text-center inline ml-2" /></Link>
-              </p>
+            <div className="text-center">
+              <p className="text-sm text-gray-400">To become an organizer, please contact support.</p>
+              <Link to="/profile" className="mt-4 inline-block text-center text-indigo-400 hover:underline">
+                Go to Profile <FiExternalLink className="inline" />
+              </Link>
             </div>
           )}
           {eventStatus === 'loading' && (
-            <p className="mt-4 text-center text-sm text-gray-400">Creating event...</p>
+            <p className="mt-4 text-center text-sm text-gray-400">Loading...</p>
           )}
-          {eventStatus === 'failed' && (
-            <p className="mt-4 text-center text-sm text-gray-400">{eventError}</p>
+          {eventError && (
+            <p className="mt-4 text-center text-sm text-red-400">{eventError}</p>
           )}
           {eventMessage && (
-            <p className="mt-4 text-center text-sm text-gray-400">{eventMessage}</p>
+            <p className="mt-4 text-center text-sm text-green-400">{eventMessage}</p>
           )}
         </div>
       </div>
