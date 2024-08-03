@@ -6,8 +6,8 @@ const createEvent = async (req, res) => {
     const { name, description, date, contact, prizepool } = req.body;
 
     try {
-        if (!contact) {
-            return res.status(400).json({ msg: 'Contact information is required' });
+        if (!name || !description || !date || !contact || !prizepool) {
+            return res.status(400).json({ msg: 'All fields are required' });
         }
 
         const event = new Event({
@@ -15,11 +15,12 @@ const createEvent = async (req, res) => {
             description,
             date,
             contact,
-            prizepool
+            prizepool,
+            organizer: req.user.id  // Link event to the user creating it
         });
 
         await event.save();
-        res.json({ message: 'Event created successfully', event });
+        res.status(201).json({ message: 'Event created successfully', event });
     } catch (err) {
         console.error('Error creating event:', err.message);
         res.status(500).json({ message: 'Server error', error: err.message });
@@ -39,12 +40,9 @@ const getEvents = async (req, res) => {
 
 // Register Event
 const registerEvent = async (req, res) => {
-    console.log('Request User:', req.user); // assuming req.user contains the logged-in user's data
     const { id } = req.params;
     const { email, contactNumber, teamName, teamMemberCount, address } = req.body;
-    const userId = req.user.id; // Ensure `req.user` has the correct ID property
-
-    console.log('Request Body:', req.body);
+    const userId = req.user.id;  // Ensure `req.user` has the correct ID property
 
     try {
         const event = await Event.findById(id);
@@ -59,7 +57,7 @@ const registerEvent = async (req, res) => {
             teamName,
             teamMemberCount,
             address,
-            userId // Include userId in the registration
+            userId
         });
 
         await registration.save();
@@ -72,7 +70,11 @@ const registerEvent = async (req, res) => {
 
 // Get Registered Events for Player
 const getRegisteredEventsForPlayer = async (req, res) => {
-    const { userId } = req.params; // Get the userId from the request params
+    const { userId } = req.params;
+
+    if (!userId) {
+        return res.status(400).json({ msg: 'User ID is required' });
+    }
 
     try {
         const registrations = await Registration.find({ userId });
@@ -90,4 +92,9 @@ const getRegisteredEventsForPlayer = async (req, res) => {
     }
 };
 
-module.exports = { createEvent, getEvents, registerEvent, getRegisteredEventsForPlayer };
+module.exports = {
+    createEvent,
+    getEvents,
+    registerEvent,
+    getRegisteredEventsForPlayer
+};

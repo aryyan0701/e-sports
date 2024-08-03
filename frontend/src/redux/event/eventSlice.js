@@ -21,19 +21,19 @@ const eventSlice = createSlice({
       .addCase(createEvent.pending, (state) => {
         state.status = 'loading';
         state.error = null;
-        state.message = '';
       })
       .addCase(createEvent.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.message = action.payload.message; 
-        state.events.push(action.payload.event);
+        state.message = 'Event created successfully!';
+        state.events.push(action.payload);
       })
       .addCase(createEvent.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload.message || 'Failed to create event';
+        state.error = action.payload.message;
       })
       .addCase(getEvents.pending, (state) => {
         state.status = 'loading';
+        state.error = null;
       })
       .addCase(getEvents.fulfilled, (state, action) => {
         state.status = 'succeeded';
@@ -41,20 +41,19 @@ const eventSlice = createSlice({
       })
       .addCase(getEvents.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload || 'Failed to load events';
+        state.error = action.payload.message;
       })
       .addCase(regiForEvent.pending, (state) => {
         state.status = 'loading';
         state.error = null;
-        state.message = '';
       })
       .addCase(regiForEvent.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.message = 'Event registration successfully!';
+        state.message = 'Registration successful!';
       })
       .addCase(regiForEvent.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload || 'Failed to register in event';
+        state.error = action.payload.message;
       });
   }
 });

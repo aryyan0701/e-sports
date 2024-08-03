@@ -17,6 +17,7 @@ const CreateEvent = () => {
   });
 
   const [isOrganizer, setIsOrganizer] = useState(false);
+  const [showEventListLink, setShowEventListLink] = useState(false); // New state to control link visibility
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -33,13 +34,15 @@ const CreateEvent = () => {
   useEffect(() => {
     if (role === 'organizer') {
       setIsOrganizer(true);
+      setShowEventListLink(false); // Hide the event list link for organizers
     } else {
       setIsOrganizer(false);
+      setShowEventListLink(true); // Show the event list link for players
     }
   }, [role]);
 
   useEffect(() => {
-    if (eventStatus === 'succeeded') {
+    if (eventStatus === 'succeeded' && isOrganizer) {
       setFormData({
         name: '',
         description: '',
@@ -56,7 +59,7 @@ const CreateEvent = () => {
         dispatch(clearMessage());
       }
     };
-  }, [eventStatus, eventMessage, navigate, dispatch]);
+  }, [eventStatus, eventMessage, navigate, dispatch, isOrganizer]);
 
   const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -152,10 +155,12 @@ const CreateEvent = () => {
             </form>
           ) : (
             <div className="text-center">
-              <p className="text-sm text-gray-400">To become an organizer, please contact support.</p>
-              <Link to="/profile" className="mt-4 inline-block text-center text-indigo-400 hover:underline">
-                Go to Profile <FiExternalLink className="inline" />
-              </Link>
+              <p className="text-sm text-gray-400">You cannot create an event. Please visit the event list page for more information.</p>
+              {showEventListLink && (
+                <Link to="/eventlist" className="mt-4 inline-block text-center text-indigo-400 hover:underline">
+                  Go to Event List <FiExternalLink className="inline" />
+                </Link>
+              )}
             </div>
           )}
           {eventStatus === 'loading' && (

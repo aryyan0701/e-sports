@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from '../redux/auth/authSlice';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [events, setEvents] = useState([]);
   const [createdEvents, setCreatedEvents] = useState([]);
   const [registeredEvents, setRegisteredEvents] = useState([]);
   const navigate = useNavigate();
@@ -23,55 +22,48 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/api/events");
-        setEvents(res.data);
-      } catch (err) {
-        console.error("Error fetching events:", err.message);
-      }
-    };
-
-    const fetchRegistrations = async () => {
-      try {
-        if (user) {
-          const res = await axios.get(`http://localhost:5000/api/registrations/${user.email}`);
-          const registrations = res.data;
-          
-          // Extract event IDs from registrations
-          const eventIds = registrations.map(reg => reg.eventId);
-          
-          // Fetch events based on registration IDs
-          const upcomingEvents = events.filter(event => 
-            eventIds.includes(event._id.toString()) && new Date(event.date) > new Date()
-          );
-          setRegisteredEvents(upcomingEvents);
+    const fetchUserData = async () => {
+      const userData = sessionStorage.getItem('user');
+      if (userData) {
+        try {
+          const parsedUserData = JSON.parse(userData);
+          setUser(parsedUserData);
+        } catch (error) {
+          console.error('Failed to parse user data:', error);
         }
-      } catch (err) {
-        console.error("Error fetching registrations:", err.message);
       }
     };
 
-    const userData = sessionStorage.getItem('user');
-    if (userData) {
-      try {
-        const parsedUserData = JSON.parse(userData);
-        setUser(parsedUserData);
-        fetchRegistrations();
-      } catch (error) {
-        console.error('Failed to parse user data:', error);
-      }
-    }
-
-    fetchEvents();
-  }, [user, events]);
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
-    if (user && events.length > 0) {
-      const filteredEvents = events.filter(event => event.contact === user.email);
-      setCreatedEvents(filteredEvents);
-    }
-  }, [user, events]);
+    const fetchUserEvents = async () => {
+      if (!user) return;
+  
+  
+      try {
+        if (user.role === "organizer") {
+          const createdEventsRes = await axios.get("http://localhost:5000/api/events");
+          const filteredEvents = createdEventsRes.data.filter(event => event.contact === user.email);
+          setCreatedEvents(filteredEvents);
+        }
+  
+        if (user.role === "player") {
+          const token = sessionStorage.getItem('token');
+          const registeredEventsRes = await axios.get(`http://localhost:5000/api/events/player/${user.id}/registered`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setRegisteredEvents(registeredEventsRes.data);
+        }
+      } catch (err) {
+        console.error("Error fetching user events:", err.message);
+      }
+    };
+  
+    fetchUserEvents();
+  }, [user]);
+  
 
   if (!user) {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
