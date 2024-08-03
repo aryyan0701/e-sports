@@ -16,14 +16,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const registerUser = async (req, res) => {
-  const {
-    name,
-    email,
-    password,
-    role,
-    phoneNumber,
-    bio,
-  } = req.body;
+  const { name, email, password, role, phoneNumber, bio } = req.body;
   const profileImage = req.file ? `/uploads/${req.file.filename}` : null;
 
   try {
@@ -74,7 +67,6 @@ const registerUser = async (req, res) => {
   }
 };
 
-
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -97,12 +89,11 @@ const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        phoneNumber: user.phoneNumber, // Added
-        bio: user.bio, // Added
+        phoneNumber: user.phoneNumber,
+        bio: user.bio,
         profileImage: user.profileImage,
       },
     };
-
 
     jwt.sign(
       payload,
@@ -118,8 +109,5 @@ const loginUser = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
-
-
-
 
 module.exports = { registerUser, loginUser, upload };

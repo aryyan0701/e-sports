@@ -14,15 +14,15 @@ const createEvent = async (req, res) => {
             name,
             description,
             date,
-            contact, 
+            contact,
             prizepool
         });
 
         await event.save();
-        res.json(event);
+        res.json({ message: 'Event created successfully', event });
     } catch (err) {
         console.error('Error creating event:', err.message);
-        res.status(500).send('Server error');
+        res.status(500).json({ message: 'Server error', error: err.message });
     }
 };
 
@@ -42,7 +42,7 @@ const registerEvent = async (req, res) => {
     console.log('Request User:', req.user); // assuming req.user contains the logged-in user's data
     const { id } = req.params;
     const { email, contactNumber, teamName, teamMemberCount, address } = req.body;
-    const userId = req.user._id; // Get the user ID from req.user
+    const userId = req.user.id; // Ensure `req.user` has the correct ID property
 
     console.log('Request Body:', req.body);
 
