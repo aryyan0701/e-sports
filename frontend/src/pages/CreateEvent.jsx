@@ -16,8 +16,6 @@ const CreateEvent = () => {
     prizepool: ''
   });
 
-  const [isOrganizer, setIsOrganizer] = useState(false);
-  const [showEventListLink, setShowEventListLink] = useState(false); // New state to control link visibility
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -32,17 +30,7 @@ const CreateEvent = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (role === 'organizer') {
-      setIsOrganizer(true);
-      setShowEventListLink(false); // Hide the event list link for organizers
-    } else {
-      setIsOrganizer(false);
-      setShowEventListLink(true); // Show the event list link for players
-    }
-  }, [role]);
-
-  useEffect(() => {
-    if (eventStatus === 'succeeded' && isOrganizer) {
+    if (eventStatus === 'succeeded') {
       setFormData({
         name: '',
         description: '',
@@ -59,13 +47,13 @@ const CreateEvent = () => {
         dispatch(clearMessage());
       }
     };
-  }, [eventStatus, eventMessage, navigate, dispatch, isOrganizer]);
+  }, [eventStatus, eventMessage, navigate, dispatch]);
 
   const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!isOrganizer) {
+    if (role === "organizer") {
       dispatch(clearMessage());
       dispatch({ type: 'event/setMessage', payload: 'Only organizers can create events.' });
       return;
@@ -86,7 +74,7 @@ const CreateEvent = () => {
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 w-full max-w-lg md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-white">Create Event</h2>
-          {isOrganizer ? (
+          {role === "organizer" ? (
             <form onSubmit={onSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-300">Event Name</label>
@@ -156,11 +144,9 @@ const CreateEvent = () => {
           ) : (
             <div className="text-center">
               <p className="text-sm text-gray-400">You cannot create an event. Please visit the event list page for more information.</p>
-              {showEventListLink && (
                 <Link to="/eventlist" className="mt-4 inline-block text-center text-indigo-400 hover:underline">
                   Go to Event List <FiExternalLink className="inline" />
                 </Link>
-              )}
             </div>
           )}
           {eventStatus === 'loading' && (
