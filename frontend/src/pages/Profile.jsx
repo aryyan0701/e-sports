@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from '../redux/auth/authSlice';
+import { checkUser } from '../redux/user/userSlice';
+import { fetchUserEvents } from '../redux/user/userApi';
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [createdEvents, setCreatedEvents] = useState([]);
-  const [registeredEvents, setRegisteredEvents] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { user, role, status, error, createdEvents, registeredEvents } = useSelector((state) => state.user);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -22,51 +22,21 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const userData = sessionStorage.getItem('user');
-      if (userData) {
-        try {
-          const parsedUserData = JSON.parse(userData);
-          setUser(parsedUserData);
-        } catch (error) {
-          console.error('Failed to parse user data:', error);
-        }
-      }
-    };
-
-    fetchUserData();
-  }, []);
+    dispatch(checkUser('User data not found'));
+  }, [dispatch]);
 
   useEffect(() => {
-    const fetchUserEvents = async () => {
-      if (!user) return;
-  
-  
-      try {
-        if (user.role === "organizer") {
-          const createdEventsRes = await axios.get("http://localhost:5000/api/events");
-          const filteredEvents = createdEventsRes.data.filter(event => event.contact === user.email);
-          setCreatedEvents(filteredEvents);
-        }
-  
-        if (user.role === "player") {
-          const token = sessionStorage.getItem('token');
-          const registeredEventsRes = await axios.get(`http://localhost:5000/api/events/player/${user.id}/registered`, {
-            headers: { Authorization: `Bearer ${token}` }
-          });
-          setRegisteredEvents(registeredEventsRes.data);
-        }
-      } catch (err) {
-        console.error("Error fetching user events:", err.message);
-      }
-    };
-  
-    fetchUserEvents();
-  }, [user]);
-  
+    if (user) {
+      dispatch(fetchUserEvents({ userId: user.id, role: user.role, email: user.email }));
+    }
+  }, [dispatch, user]);
+
+  if (status === 'loading') {
+    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+  }
 
   if (!user) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+    return <div className="flex justify-center items-center min-h-screen">User not found</div>;
   }
 
   return (
@@ -126,52 +96,40 @@ const Profile = () => {
 
         {/* events details */}
         <div className="relative z-10 w-full max-w-lg md:max-w-4xl p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg mt-8">
-          {user.role === "organizer" ? (
+          {role === "organizer" ? (
             <>
               <h2 className="text-3xl font-bold text-center text-white mb-6">Events You Created</h2>
               <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {createdEvents.map((event) => (
-                  <div key={event._id} className="bg-white shadow-md rounded-lg p-6">
-                    <h3 className="text-xl font-bold mb-2">{event.name.toUpperCase()}</h3>
-                    <p className="text-gray-500 mb-2">
-                      <strong>Date:</strong>{" "}
-                      {new Date(event.date).toLocaleDateString()}
-                    </p>
-                    <p className="text-gray-500 mb-2">
-                      <strong>Contact:</strong> {event.contact}
-                    </p>
-                    <p className="text-gray-500 mb-2">
-                      <strong>Prizepool:</strong> {event.prizepool}
-                    </p>
-                    <p className="text-gray-500 mb-4">
-                      <strong>Description:</strong> {event.description}
-                    </p>
-                  </div>
-                ))}
+                {createdEvents.length > 0 ? (
+                  createdEvents.map((event) => (
+                    <div key={event._id} className="bg-gray-700 p-6 rounded-lg shadow-lg">
+                      <h3 className="text-xl font-bold text-white mb-4">{event.name}</h3>
+                      <p className="text-lg text-gray-300 mb-2">Date: {event.date}</p>
+                      <p className="text-lg text-gray-300 mb-2">Venue: {event.venue}</p>
+                      <p className="text-lg text-gray-300 mb-2">Contact: {event.contact}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-lg text-gray-300">No events found.</p>
+                )}
               </div>
             </>
           ) : (
             <>
-              <h2 className="text-3xl font-bold text-center text-white mb-6">Your Upcoming Events</h2>
+              <h2 className="text-3xl font-bold text-center text-white mb-6">Your Registered Events</h2>
               <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {registeredEvents.map((event) => (
-                  <div key={event._id} className="bg-white shadow-md rounded-lg p-6">
-                    <h3 className="text-xl font-bold mb-2">{event.name.toUpperCase()}</h3>
-                    <p className="text-gray-500 mb-2">
-                      <strong>Date:</strong>{" "}
-                      {new Date(event.date).toLocaleDateString()}
-                    </p>
-                    <p className="text-gray-500 mb-2">
-                      <strong>Contact:</strong> {event.contact}
-                    </p>
-                    <p className="text-gray-500 mb-2">
-                      <strong>Prizepool:</strong> {event.prizepool}
-                    </p>
-                    <p className="text-gray-500 mb-4">
-                      <strong>Description:</strong> {event.description}
-                    </p>
-                  </div>
-                ))}
+                {registeredEvents.length > 0 ? (
+                  registeredEvents.map((event) => (
+                    <div key={event._id} className="bg-gray-700 p-6 rounded-lg shadow-lg">
+                      <h3 className="text-xl font-bold text-white mb-4">{event.name}</h3>
+                      <p className="text-lg text-gray-300 mb-2">Date: {event.date}</p>
+                      <p className="text-lg text-gray-300 mb-2">Venue: {event.venue}</p>
+                      <p className="text-lg text-gray-300 mb-2">Contact: {event.contact}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-lg text-gray-300">No events found.</p>
+                )}
               </div>
             </>
           )}
