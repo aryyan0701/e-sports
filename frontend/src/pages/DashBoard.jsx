@@ -46,7 +46,7 @@ function DashBoard() {
 
           {/* Slider */}
       <div className="container mx-auto p-8 mb-10">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">Choose Your Game</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-200 mb-8">Choose Your Game</h2>
         <GameSlider />
       </div>
       </div>
