@@ -174,6 +174,9 @@ const EventList = () => {
                   {new Date(event.date).toLocaleDateString()}
                 </p>
                 <p className="text-gray-500 mb-2">
+                  <strong>Venue:</strong> {event.venue}
+                </p>
+                <p className="text-gray-500 mb-2">
                   <strong>Contact:</strong> {event.contact}
                 </p>
                 <p className="text-gray-500 mb-2">

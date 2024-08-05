@@ -12,6 +12,7 @@ const CreateEvent = () => {
     name: '',
     description: '',
     date: '',
+    venue: '',
     contact: '',
     prizepool: ''
   });
@@ -19,7 +20,7 @@ const CreateEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { name, description, date, contact, prizepool } = formData;
+  const { name, description, date, venue, contact, prizepool } = formData;
   const { role } = useSelector((state) => state.user);
   const eventStatus = useSelector((state) => state.event.status);
   const eventError = useSelector((state) => state.event.error);
@@ -34,6 +35,7 @@ const CreateEvent = () => {
       setFormData({
         name: '',
         description: '',
+        venue: '',
         date: '',
         contact: '',
         prizepool: ''
@@ -53,12 +55,11 @@ const CreateEvent = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (role === "organizer") {
+    if (role !== "organizer") {
       dispatch(clearMessage());
       dispatch({ type: 'event/setMessage', payload: 'Only organizers can create events.' });
       return;
     }
-
     dispatch(createEvent(formData));
   };
 
@@ -89,17 +90,6 @@ const CreateEvent = () => {
                 />
               </div>
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-300">Description</label>
-                <textarea
-                  name="description"
-                  value={description}
-                  onChange={onChange}
-                  required
-                  placeholder="Enter event description"
-                  className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
-                ></textarea>
-              </div>
-              <div>
                 <label htmlFor="date" className="block text-sm font-medium text-gray-300">Date</label>
                 <input
                   type="date"
@@ -109,6 +99,28 @@ const CreateEvent = () => {
                   required
                   className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
                 />
+              </div>
+              <div>
+                <label htmlFor="venue" className="block text-sm font-medium text-gray-300">Venue</label>
+                <input
+                  name="venue"
+                  value={venue}
+                  onChange={onChange}
+                  placeholder='Enter the venue'
+                  required
+                  className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+              <div>
+                <label htmlFor="description" className="block text-sm font-medium text-gray-300">Description</label>
+                <textarea
+                  name="description"
+                  value={description}
+                  onChange={onChange}
+                  required
+                  placeholder="Enter event description"
+                  className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
+                ></textarea>
               </div>
               <div>
                 <label htmlFor="contact" className="block text-sm font-medium text-gray-300">Organizer Contact</label>
@@ -144,9 +156,9 @@ const CreateEvent = () => {
           ) : (
             <div className="text-center">
               <p className="text-sm text-gray-400">You cannot create an event. Please visit the event list page for more information.</p>
-                <Link to="/eventlist" className="mt-4 inline-block text-center text-indigo-400 hover:underline">
-                  Go to Event List <FiExternalLink className="inline" />
-                </Link>
+              <Link to="/eventlist" className="mt-4 inline-block text-center text-indigo-400 hover:underline">
+                Go to Event List <FiExternalLink className="inline" />
+              </Link>
             </div>
           )}
           {eventStatus === 'loading' && (

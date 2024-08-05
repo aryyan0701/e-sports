@@ -3,10 +3,10 @@ const Registration = require('../models/registration');
 
 // Create Event
 const createEvent = async (req, res) => {
-    const { name, description, date, contact, prizepool } = req.body;
+    const { name, description, date, venue, contact, prizepool } = req.body;
 
     try {
-        if (!name || !description || !date || !contact || !prizepool) {
+        if (!name || !description || !date || !venue || !contact || !prizepool) {
             return res.status(400).json({ msg: 'All fields are required' });
         }
 
@@ -14,6 +14,7 @@ const createEvent = async (req, res) => {
             name,
             description,
             date,
+            venue,
             contact,
             prizepool,
             organizer: req.user.id  // Link event to the user creating it
