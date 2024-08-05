@@ -7,11 +7,13 @@ import { checkUser } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/auth/authSlice";
 import { getEvents, regiForEvent } from "../redux/event/eventApi";
+import DashNavbar from "../components/DashNavbar";
 
 Modal.setAppElement("#root");
 
 const EventList = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [formData, setFormData] = useState({
     email: "",
@@ -37,6 +39,15 @@ const EventList = () => {
   useEffect(() => {
     dispatch(getEvents());
   }, [dispatch]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSkeleton(false);
+    }, 1000);
+
+    // Clean up the timer on component unmount
+    return () => clearTimeout(timer);
+  }, []);
 
   const openModal = (event) => {
     setSelectedEvent(event);
@@ -80,79 +91,30 @@ const EventList = () => {
    
   };
 
-  if (status === "loading") {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        Loading...
-      </div>
-    );
-  }
-
   if (error) {
     return <div>Error: {error}</div>;
   }
 
   return (
     <>
-      <nav className="bg-gray-800 p-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="text-white font-bold text-3xl">
-            <a href="/">Battelfy</a>
-          </div>
-          <button
-            className="block lg:hidden text-white focus:outline-none"
-            onClick={toggleMenu}
-          >
-            {isOpen ? (
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            ) : (
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                />
-              </svg>
-            )}
-          </button>
-          <div className={`lg:flex ${isOpen ? "block" : "hidden"} gap-x-4`}>
-            <Link
-              to="/dashboard"
-              className="text-white text-2xl hover:text-gray-300"
-            >
-              Dash
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="text-white text-2xl hover:text-gray-300"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </nav>
+      <DashNavbar/>
       <div className="min-h-screen bg-gray-100 py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-8">Event List</h2>
-          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {status === "loading" ? (
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-200 justify-between gap-8">
+                 <div className="skeleton h-32 w-full"></div>
+                 <div className="skeleton h-32 w-full"></div>
+                 <div className="skeleton h-32 w-full"></div>
+                 <div className="skeleton h-32 w-full"></div>
+                 <div className="skeleton h-32 w-full"></div>
+                 <div className="skeleton h-32 w-full"></div>
+                 <div className="skeleton h-32 w-full"></div>
+                 <div className="skeleton h-32 w-full"></div>
+                 <div className="skeleton h-32 w-full"></div>
+                 </div>
+          ):(
+            <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {events.map((event) => (
               <div
                 key={event._id}
@@ -196,6 +158,7 @@ const EventList = () => {
               </div>
             ))}
           </div>
+          )}
           <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}

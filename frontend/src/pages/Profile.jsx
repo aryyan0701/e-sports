@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/auth/authSlice";
 import { checkUser } from "../redux/user/userSlice";
 import { fetchUserEvents } from "../redux/user/userApi";
+import DashNavbar from "../components/DashNavbar";
 
 const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showSkeleton, setShowSkeleton] = useState(true); // New state for skeleton screen
+  const [showSkeleton, setShowSkeleton] = useState(true); 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -35,29 +36,15 @@ const Profile = () => {
     }
   }, [dispatch, user]);
 
-  // Set a timeout to hide the skeleton screen after 2 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSkeleton(false);
-    }, 2000);
+    }, 1000);
 
     // Clean up the timer on component unmount
     return () => clearTimeout(timer);
   }, []);
 
-  // Show skeleton screen while loading
-  if (showSkeleton) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-200">
-        <div className="flex w-[40rem] flex-col gap-4">
-          <div className="skeleton h-[25rem] w-full bg-gray-500 rounded-md animate-pulse"></div>
-          <div className="skeleton h-4 w-28 bg-gray-500 rounded-md animate-pulse"></div>
-          <div className="skeleton h-4 w-full bg-gray-500 rounded-md animate-pulse"></div>
-          <div className="skeleton h-4 w-full bg-gray-500 rounded-md animate-pulse"></div>
-        </div>
-      </div>
-    );
-  }
 
   if (!user) {
     return (
@@ -69,64 +56,18 @@ const Profile = () => {
 
   return (
     <>
-      <nav className="bg-gray-800 p-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="text-white font-bold text-3xl">
-            <a href="/">Battelfy</a>
+      <DashNavbar/>
+      {status === "loading" ? (
+            <div className="flex justify-center items-center min-h-screen bg-gray-200">
+            <div className="flex w-[40rem] flex-col gap-4">
+              <div className="skeleton h-[25rem] w-full bg-gray-500 rounded-md animate-pulse"></div>
+              <div className="skeleton h-4 w-28 bg-gray-500 rounded-md animate-pulse"></div>
+              <div className="skeleton h-4 w-full bg-gray-500 rounded-md animate-pulse"></div>
+              <div className="skeleton h-4 w-full bg-gray-500 rounded-md animate-pulse"></div>
+            </div>
           </div>
-
-          <button
-            className="block lg:hidden text-white focus:outline-none"
-            onClick={toggleMenu}
-          >
-            {isOpen ? (
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            ) : (
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                />
-              </svg>
-            )}
-          </button>
-
-          <div className={`lg:flex ${isOpen ? "block" : "hidden"} gap-x-4`}>
-            <Link
-              to="/dashboard"
-              className="text-white text-2xl hover:text-gray-300"
-            >
-              Dash
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="text-white text-2xl hover:text-gray-300"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </nav>
-      <div
+      ):(
+        <div
         className="relative flex flex-col justify-center items-center min-h-screen bg-cover bg-center pt-10"
         style={{
           backgroundImage:
@@ -240,6 +181,8 @@ const Profile = () => {
           )}
         </div>
       </div>
+      )}
+
     </>
   );
 };

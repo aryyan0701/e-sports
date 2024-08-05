@@ -40,33 +40,47 @@ const DashNavbar = () => {
           </div>
 
           {/* Navigation Links */}
-          <div className={`lg:flex ${isOpen ? "block" : "hidden"} gap-x-4`}>
-            <button
-              onClick={handleLogout}
-              className="text-white text-2xl hover:text-gray-300"
-            >
-              Logout
-            </button>
-            {role !== "organizer" ? (
-              <Link
-                to="/profile"
-                className="text-white text-2xl mt-[6px] hover:text-gray-300"
+          <div className= 'gap-x-4'>
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
               >
-                <FaCircleUser />
-              </Link>
-            ) : (
-              <Link
-                to="/profile"
-                className="text-white text-2xl mt-[6px] hover:text-gray-300"
+                <div className="w-10 rounded-full">
+                  <img
+                    alt="Tailwind CSS Navbar component"
+                    src="https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png"
+                  />
+                </div>
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content bg-gray-600 rounded-box z-[1] mt-3 w-56 h-32 p-2 shadow"
               >
-                <RiAdminFill />
-              </Link>
-            )}
+                <li>
+                  <Link to='/profile' className="justify-between text-xl text-black font-semibold">
+                    Profile
+                    {role !== "organizer" ? (<span className="badge bg-gray-200 text-md text-black">Player</span>):(<span className="badge bg-gray-200 text-md text-black">Organizer</span>)}
+                  </Link>
+                </li>
+                <li>
+                  <a className="text-xl text-black font-semibold">Settings</a>
+                </li>
+                <li>
+                  <button  onClick={handleLogout}>
+                  <a className="text-xl text-black font-semibold">Logout</a>
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </nav>
 
-      <div className={`drawer ${isOpen ? "drawer-open fixed inset-0 z-50" : ""}`}>
+      <div
+        className={`drawer ${isOpen ? "drawer-open fixed inset-0 z-50" : ""}`}
+      >
         <input
           id="my-drawer"
           type="checkbox"
@@ -83,28 +97,28 @@ const DashNavbar = () => {
             onClick={toggleDrawer}
           ></label>
           <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-          <div className="relative">
-            <button
-              onClick={toggleDrawer}
-              className="absolute top-4 right-4 text-white p-2 focus:outline-none"
-            >
-              <FaWindowClose className="text-white text-3xl" />
-            </button>
-          </div>
-          <div className="text-white font-bold text-4xl p-5">
-            <a href="/">Battelfy</a>
-          </div>
+            <div className="relative">
+              <button
+                onClick={toggleDrawer}
+                className="absolute top-4 right-4 text-white p-2 focus:outline-none"
+              >
+                <FaWindowClose className="text-white text-3xl" />
+              </button>
+            </div>
+            <div className="text-white font-bold text-4xl p-5">
+              <a href="/">Battelfy</a>
+            </div>
             <li className="mt-10 text-xl font-semibold">
-              <Link to='/dashboard'>Dashboard</Link>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
             <li className="mt-2 text-xl font-semibold">
-              <Link to='/create-event'>Create Event</Link>
+              <Link to="/create-event">Create Event</Link>
             </li>
             <li className="mt-2 text-xl font-semibold">
-              <Link to='/eventlist'>Event List</Link>
+              <Link to="/eventlist">Event List</Link>
             </li>
             <li className="mt-2 text-xl font-semibold">
-              <Link to='/news'>Latest News</Link>
+              <Link to="/news">Latest News</Link>
             </li>
           </ul>
         </div>
