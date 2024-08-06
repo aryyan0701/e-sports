@@ -88,7 +88,6 @@ const EventList = () => {
       console.error("Registration failed:", err);
       alert("Registration failed. Please try again.");
     });
-   
   };
 
   if (error) {
@@ -129,7 +128,7 @@ const EventList = () => {
                   </button>
                 )}
                 <h3 className="text-xl font-bold mb-2">
-                  {event.name.toUpperCase()}
+                  {event.name ? event.name.toUpperCase() : "Unnamed Event"}
                 </h3>
                 <p className="text-gray-500 mb-2">
                   <strong>Date:</strong>{" "}
@@ -250,28 +249,31 @@ const EventList = () => {
                 </div>
                 <div className="sm:col-span-2 mb-4">
                   <label
+                    className="block text-gray-700 text-sm font-bold mb-2"
                     htmlFor="address"
-                    className="text-gray-700 text-sm font-bold mb-2"
                   >
                     Address
                   </label>
                   <textarea
                     id="address"
                     name="address"
-                    value={formData.address} // Use formData.address here
-                    onChange={handleChange} // Use the handleChange function to update the state
-                    placeholder="Address"
-                    className="w-full px-4 py-2 mt-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline rounded"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    rows="3"
+                    value={formData.address}
+                    placeholder="Enter Address"
+                    onChange={handleChange}
                     required
-                  ></textarea>
+                  />
                 </div>
               </div>
-              <button
-                type="submit"
-                className="bg-indigo-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                Register
-              </button>
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className="bg-gray-300 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Submit
+                </button>
+              </div>
             </form>
           </Modal>
         </div>

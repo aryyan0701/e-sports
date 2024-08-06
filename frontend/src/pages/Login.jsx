@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { ClipLoader } from "react-spinners";
 import { loginUser } from "../redux/auth/authApi";
 import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
+  const location = useLocation();
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: location.state?.email || "",
+    password: location.state?.password || "",
   });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -19,12 +20,16 @@ const Login = () => {
 
   const { email, password } = formData;
 
+  useEffect(() => {
+    if (location.state?.email && location.state?.password) {
+      handleSubmit();
+    }
+  }, []);
+
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     dispatch(loginUser(formData)).then((res) => {
       if (res.type === "auth/login/fulfilled") {
         setMessage("Login successful! Redirecting to dashboard...");
@@ -37,6 +42,11 @@ const Login = () => {
         );
       }
     });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleSubmit();
   };
 
   return (

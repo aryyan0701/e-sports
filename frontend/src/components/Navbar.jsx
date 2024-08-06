@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleDemoLogin = () => {
+    navigate('/login', { state: { email: 'demo@gmail.com', password: 'demo12' } });
   };
 
   return (
@@ -50,19 +55,8 @@ const Navbar = () => {
         </button>
 
         {/* Navigation Links */}
-        <div className={`lg:flex ${isOpen ? 'block' : 'hidden'} space-x-4 gap-x-5` }>
-          <Link to="/register" className="text-white text-xl hover:text-gray-300">
-            Signup
-          </Link>
-          <Link to="/login" className="text-white text-xl hover:text-gray-300">
-            Login
-          </Link>
-          {/* <Link to="/create-event" className="text-white hover:text-gray-300">
-            Create Event
-          </Link>
-          <Link to="/events" className="text-white hover:text-gray-300">
-            Event List
-          </Link> */}
+        <div className={`lg:flex ${isOpen ? 'block' : 'hidden'} space-x-4 gap-x-5`}>
+          <button onClick={handleDemoLogin} className="text-white text-xl hover:text-gray-300 font-semibold">Use Demo</button>
         </div>
       </div>
     </nav>

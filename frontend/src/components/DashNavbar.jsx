@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaCircleUser, FaBars } from "react-icons/fa6";
+import { FaBars } from "react-icons/fa6";
 import { FaWindowClose } from "react-icons/fa";
-import { RiAdminFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUser } from "../redux/user/userSlice";
 import { logout } from "../redux/auth/authSlice";
@@ -56,7 +55,7 @@ const DashNavbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-gray-600 rounded-box z-[1] mt-3 w-56 h-32 p-2 shadow"
+                className="menu menu-sm dropdown-content bg-gray-700 rounded-box z-[1] mt-3 w-56 h-32 p-2 shadow"
               >
                 <li>
                   <Link to='/profile' className="justify-between text-xl text-black font-semibold">

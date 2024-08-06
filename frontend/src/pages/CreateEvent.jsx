@@ -30,8 +30,17 @@ const CreateEvent = () => {
     dispatch(checkUser('User data not found'));
   }, [dispatch]);
 
-  useEffect(() => {
-    if (eventStatus === 'succeeded') {
+  const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (role !== "organizer") {
+      dispatch(clearMessage());
+      dispatch({ type: 'event/setMessage', payload: 'Only organizers can create events.' });
+      return;
+    }
+    const resultAction = await dispatch(createEvent(formData));
+    if (createEvent.fulfilled.match(resultAction)) {
       setFormData({
         name: '',
         description: '',
@@ -40,27 +49,8 @@ const CreateEvent = () => {
         contact: '',
         prizepool: ''
       });
-      setTimeout(() => {
-        navigate('/eventlist');
-      }, 2000);
+      navigate('/eventlist');
     }
-    return () => {
-      if (eventMessage) {
-        dispatch(clearMessage());
-      }
-    };
-  }, [eventStatus, eventMessage, navigate, dispatch]);
-
-  const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    if (role !== "organizer") {
-      dispatch(clearMessage());
-      dispatch({ type: 'event/setMessage', payload: 'Only organizers can create events.' });
-      return;
-    }
-    dispatch(createEvent(formData));
   };
 
   return (
@@ -111,17 +101,7 @@ const CreateEvent = () => {
                   className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
                 />
               </div>
-              <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-300">Description</label>
-                <textarea
-                  name="description"
-                  value={description}
-                  onChange={onChange}
-                  required
-                  placeholder="Enter event description"
-                  className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
-                ></textarea>
-              </div>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="contact" className="block text-sm font-medium text-gray-300">Organizer Contact</label>
                 <input
@@ -130,7 +110,7 @@ const CreateEvent = () => {
                   value={contact}
                   onChange={onChange}
                   required
-                  placeholder="Enter organizer contact"
+                  placeholder="Enter contact"
                   className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
                 />
               </div>
@@ -145,6 +125,18 @@ const CreateEvent = () => {
                   placeholder="Enter prizepool"
                   className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
                 />
+              </div>
+              </div>
+              <div>
+                <label htmlFor="description" className="block text-sm font-medium text-gray-300">Description</label>
+                <textarea
+                  name="description"
+                  value={description}
+                  onChange={onChange}
+                  required
+                  placeholder="Enter event description"
+                  className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
+                ></textarea>
               </div>
               <button
                 type="submit"
