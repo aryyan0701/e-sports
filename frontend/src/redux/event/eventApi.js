@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Function to get the token
 const getToken = () => sessionStorage.getItem('token');
 
 export const createEvent = createAsyncThunk(

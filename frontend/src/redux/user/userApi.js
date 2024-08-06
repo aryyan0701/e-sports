@@ -7,7 +7,7 @@ export const fetchUserEvents = createAsyncThunk(
     try {
       if (role === 'organizer') {
         const createdEventsRes = await axios.get("http://localhost:5000/api/events");
-        const filteredEvents = createdEventsRes.data.filter(event => event.contact === email);
+        const filteredEvents = createdEventsRes.data.filter(event => event.userEmail === email);
         return { createdEvents: filteredEvents };
       } else if (role === 'player') {
         const token = sessionStorage.getItem('token');

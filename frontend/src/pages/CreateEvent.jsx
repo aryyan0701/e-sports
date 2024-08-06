@@ -21,7 +21,7 @@ const CreateEvent = () => {
   const dispatch = useDispatch();
 
   const { name, description, date, venue, contact, prizepool } = formData;
-  const { role } = useSelector((state) => state.user);
+  const { role, user } = useSelector((state) => state.user);
   const eventStatus = useSelector((state) => state.event.status);
   const eventError = useSelector((state) => state.event.error);
   const eventMessage = useSelector((state) => state.event.message);
@@ -39,7 +39,8 @@ const CreateEvent = () => {
       dispatch({ type: 'event/setMessage', payload: 'Only organizers can create events.' });
       return;
     }
-    const resultAction = await dispatch(createEvent(formData));
+    const eventData = { ...formData, userEmail: user.email };
+    const resultAction = await dispatch(createEvent(eventData));
     if (createEvent.fulfilled.match(resultAction)) {
       setFormData({
         name: '',
