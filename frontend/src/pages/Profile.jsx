@@ -163,13 +163,13 @@ const Profile = () => {
                         {event.name}
                       </h3>
                       <p className="text-lg text-gray-300 mb-2">
-                        Date: {event.date}
+                        Date: {new Date(event.date).toLocaleDateString()}
                       </p>
                       <p className="text-lg text-gray-300 mb-2">
                         Venue: {event.venue}
                       </p>
                       <p className="text-lg text-gray-300 mb-2">
-                        Contact: {event.contact}
+                      Prizepool: {event.prizepool}
                       </p>
                     </div>
                   ))

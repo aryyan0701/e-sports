@@ -96,80 +96,80 @@ const EventList = () => {
 
   return (
     <>
-      <DashNavbar/>
+      <DashNavbar />
       <div className="min-h-screen bg-gray-100 py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-8">Event List</h2>
           {status === "loading" ? (
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-200 justify-between gap-8">
-                 <div className="skeleton h-32 w-full"></div>
-                 <div className="skeleton h-32 w-full"></div>
-                 <div className="skeleton h-32 w-full"></div>
-                 <div className="skeleton h-32 w-full"></div>
-                 <div className="skeleton h-32 w-full"></div>
-                 <div className="skeleton h-32 w-full"></div>
-                 <div className="skeleton h-32 w-full"></div>
-                 <div className="skeleton h-32 w-full"></div>
-                 <div className="skeleton h-32 w-full"></div>
-                 </div>
-          ):(
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-200 justify-between gap-8">
+              <div className="skeleton h-32 w-full"></div>
+              <div className="skeleton h-32 w-full"></div>
+              <div className="skeleton h-32 w-full"></div>
+              <div className="skeleton h-32 w-full"></div>
+              <div className="skeleton h-32 w-full"></div>
+              <div className="skeleton h-32 w-full"></div>
+              <div className="skeleton h-32 w-full"></div>
+              <div className="skeleton h-32 w-full"></div>
+              <div className="skeleton h-32 w-full"></div>
+            </div>
+          ) : (
             <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {events.map((event) => (
-              <div
-                key={event._id}
-                className="relative bg-white shadow-md rounded-lg p-6"
-              >
-                {role === "organizer" && (
-                  <button
-                    className="absolute top-3 right-4 text-red-500 hover:text-red-700"
-                    // onClick={() => handleDelete(event._id)}
-                  >
-                    <FaTrash size={20} />
-                  </button>
-                )}
-                <h3 className="text-xl font-bold mb-2">
-                  {event.name ? event.name.toUpperCase() : "Unnamed Event"}
-                </h3>
-                <p className="text-gray-500 mb-2">
-                  <strong>Date:</strong>{" "}
-                  {new Date(event.date).toLocaleDateString()}
-                </p>
-                <p className="text-gray-500 mb-2">
-                  <strong>Venue:</strong> {event.venue}
-                </p>
-                <p className="text-gray-500 mb-2">
-                  <strong>Contact:</strong> {event.contact}
-                </p>
-                <p className="text-gray-500 mb-2">
-                  <strong>Prizepool:</strong> {event.prizepool}
-                </p>
-                <p className="text-gray-500 mb-4">
-                  <strong>Description:</strong> {event.description}
-                </p>
-                {role !== "organizer" && (
-                  <button
-                    className="text-black font-semibold text-lg bg-gray-300 p-2 rounded focus:outline-none"
-                    onClick={() => openModal(event)}
-                  >
-                    Register
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
+              {events.map((event) => (
+                <div
+                  key={event._id}
+                  className="relative bg-white shadow-md rounded-lg p-6"
+                >
+                  {role === "organizer" && (
+                    <button
+                      className="absolute top-3 right-4 text-red-500 hover:text-red-700"
+                      // onClick={() => handleDelete(event._id)}
+                    >
+                      <FaTrash size={20} />
+                    </button>
+                  )}
+                  <h3 className="text-xl font-bold mb-2">
+                    {event.name ? event.name.toUpperCase() : "Unnamed Event"}
+                  </h3>
+                  <p className="text-gray-500 mb-2">
+                    <strong>Date:</strong>{" "}
+                    {new Date(event.date).toLocaleDateString()}
+                  </p>
+                  <p className="text-gray-500 mb-2">
+                    <strong>Venue:</strong> {event.venue}
+                  </p>
+                  <p className="text-gray-500 mb-2">
+                    <strong>Contact:</strong> {event.contact}
+                  </p>
+                  <p className="text-gray-500 mb-2">
+                    <strong>Prizepool:</strong> {event.prizepool}
+                  </p>
+                  <p className="text-gray-500 mb-4">
+                    <strong>Description:</strong> {event.description}
+                  </p>
+                  {role !== "organizer" && (
+                    <button
+                      className="text-black font-semibold text-lg bg-gray-300 p-2 rounded focus:outline-none"
+                      onClick={() => openModal(event)}
+                    >
+                      Register
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
           )}
           <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
             contentLabel="Register"
-            className="modal"
+            className={`modal ${modalIsOpen ? "modal-open" : "modal-close"} bg-gray-800`}
             overlayClassName="overlay"
           >
             <div className="flex justify-between items-center p-4 border border-t-0 border-r-0 border-l-0 border-b-4 border-b-black">
               <h2 className="text-2xl font-bold">
                 Register for {selectedEvent?.name}
               </h2>
-              <button onClick={closeModal} className="close-button">
+              <button onClick={closeModal} className="close-button absolute top-5 right-5">
                 Close
               </button>
             </div>
@@ -177,7 +177,7 @@ const EventList = () => {
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div className="mb-4 mt-5">
                   <label
-                    className="block text-gray-700 text-sm font-bold mb-2"
+                    className="block text-gray-200 text-md font-bold mb-2"
                     htmlFor="email"
                   >
                     Your Email
@@ -195,7 +195,7 @@ const EventList = () => {
                 </div>
                 <div className="mb-4 mt-5">
                   <label
-                    className="block text-gray-700 text-sm font-bold mb-2"
+                    className="block text-gray-200 text-md font-bold mb-2"
                     htmlFor="contactNumber"
                   >
                     Contact Number
@@ -213,7 +213,7 @@ const EventList = () => {
                 </div>
                 <div className="mb-4">
                   <label
-                    className="block text-gray-700 text-sm font-bold mb-2"
+                    className="block text-gray-200 text-md font-bold mb-2"
                     htmlFor="teamName"
                   >
                     Team Name
@@ -224,56 +224,54 @@ const EventList = () => {
                     name="teamName"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={formData.teamName}
-                    placeholder="Enter Team Name"
                     onChange={handleChange}
+                    placeholder="Enter Team Name"
                     required
                   />
                 </div>
                 <div className="mb-4">
                   <label
-                    className="block text-gray-700 text-sm font-bold mb-2"
+                    className="block text-gray-200 text-md font-bold mb-2"
                     htmlFor="teamMemberCount"
                   >
                     Team Member Count
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     id="teamMemberCount"
                     name="teamMemberCount"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={formData.teamMemberCount}
-                    placeholder="Enter Team Members Count"
                     onChange={handleChange}
+                    placeholder="Enter Member Count"
                     required
                   />
                 </div>
-                <div className="sm:col-span-2 mb-4">
+                <div className="mb-4">
                   <label
-                    className="block text-gray-700 text-sm font-bold mb-2"
+                    className="block text-gray-200 text-md font-bold mb-2"
                     htmlFor="address"
                   >
                     Address
                   </label>
-                  <textarea
+                  <input
+                    type="text"
                     id="address"
                     name="address"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    rows="3"
                     value={formData.address}
-                    placeholder="Enter Address"
                     onChange={handleChange}
+                    placeholder="Enter Address"
                     required
                   />
                 </div>
               </div>
-              <div className="flex justify-center">
-                <button
-                  type="submit"
-                  className="bg-gray-300 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                  Submit
-                </button>
-              </div>
+              <button
+                type="submit"
+                className="text-black text-lg w-full bg-gray-300 p-2 rounded font-semibold focus:outline-none"
+              >
+                Register
+              </button>
             </form>
           </Modal>
         </div>
