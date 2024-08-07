@@ -9,6 +9,7 @@ import Landing from "./pages/Landing";
 import DashBoard from "./pages/DashBoard";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import Profile from "./pages/Profile";
+import News from "./pages/News";
 
 function App() {
   return (
@@ -46,6 +47,14 @@ function App() {
           element={
             <ProtectedRoute>
               <EventList />
+            </ProtectedRoute>
+          }
+        />
+           <Route
+          path="/news"
+          element={
+            <ProtectedRoute>
+              <News />
             </ProtectedRoute>
           }
         />
