@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_KEY = import.meta.env.VITE_NEWS_API;
+
 export const fetchNews = createAsyncThunk(
   'news/fetchNews',
   async (_, thunkAPI) => {
@@ -8,7 +10,7 @@ export const fetchNews = createAsyncThunk(
       const response = await axios.get("https://esports.sportdevs.com/agg-news-leagues", {
         headers: {
           Accept: "application/json",
-          Authorization: `Bearer lC94rsNKA0GJbXSXV4hObA`
+          Authorization: `Bearer ${API_KEY}`
         }
       });
       return response.data;
