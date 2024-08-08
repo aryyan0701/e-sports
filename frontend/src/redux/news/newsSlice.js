@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchNews } from "./newsApi";
+import { fetchLeaguesNews, fetchMatchesNews } from "./newsApi";
 
 const initialState = {
   news: [],
@@ -13,15 +13,27 @@ const newsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchNews.pending, (state) => {
+      .addCase(fetchLeaguesNews.pending, (state) => {
         state.status = 'loading';
         state.error = null;
       })
-      .addCase(fetchNews.fulfilled, (state, action) => {
+      .addCase(fetchLeaguesNews.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.news = action.payload;
       })
-      .addCase(fetchNews.rejected, (state, action) => {
+      .addCase(fetchLeaguesNews.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(fetchMatchesNews.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(fetchMatchesNews.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.news = action.payload;
+      })
+      .addCase(fetchMatchesNews.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       });

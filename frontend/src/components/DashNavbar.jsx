@@ -55,7 +55,7 @@ const DashNavbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-gray-700 rounded-box z-[1] mt-3 w-56 h-32 p-2 shadow"
+                className="menu menu-sm dropdown-content bg-gray-800 rounded-box z-50 mt-3 w-56 h-32 p-2 shadow"
               >
                 <li>
                   <Link to='/profile' className="justify-between text-xl text-black font-semibold">
