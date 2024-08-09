@@ -60,6 +60,13 @@ const EventList = () => {
   const closeModal = () => {
     setModalIsOpen(false);
     setSelectedEvent(null);
+    setFormData({
+      email: "",
+      contactNumber: "",
+      teamName: "",
+      teamMemberCount: "",
+      address: "",
+    })
   };
 
   const toggleMenu = () => {
@@ -169,7 +176,7 @@ const EventList = () => {
           >
             <div className="flex justify-between items-center p-4 border-b border-gray-700 mb-4">
               <h2 className="text-2xl font-bold text-blue-400">
-                Register for {selectedEvent?.name}
+                Registration For {selectedEvent?.name.toUpperCase() }
               </h2>
               <button onClick={closeModal} className="close-button absolute top-4 right-4">
                 <IoCloseCircleOutline/>
@@ -188,7 +195,7 @@ const EventList = () => {
                     type="email"
                     id="email"
                     name="email"
-                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Enter Email"
@@ -206,7 +213,7 @@ const EventList = () => {
                     type="text"
                     id="contactNumber"
                     name="contactNumber"
-                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={formData.contactNumber}
                     onChange={handleChange}
                     placeholder="Enter Number"
@@ -224,7 +231,7 @@ const EventList = () => {
                     type="text"
                     id="teamName"
                     name="teamName"
-                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={formData.teamName}
                     onChange={handleChange}
                     placeholder="Enter Team Name"
@@ -242,7 +249,7 @@ const EventList = () => {
                     type="text"
                     id="teamMemberCount"
                     name="teamMemberCount"
-                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={formData.teamMemberCount}
                     onChange={handleChange}
                     placeholder="Enter Member Count"
@@ -260,7 +267,7 @@ const EventList = () => {
                     type="text"
                     id="address"
                     name="address"
-                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={formData.address}
                     onChange={handleChange}
                     placeholder="Enter Address"

@@ -55,20 +55,20 @@ const DashNavbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-gray-800 rounded-box z-50 mt-3 w-56 h-32 p-2 shadow"
+                className="menu menu-sm dropdown-content bg-base-200 rounded-box z-50 w-56 h-32 p-2 shadow"
               >
                 <li>
-                  <Link to='/profile' className="justify-between text-xl text-black font-semibold">
+                  <Link to='/profile' className="justify-between text-lg text-gray-300 font-semibold">
                     Profile
-                    {role !== "organizer" ? (<span className="badge bg-gray-200 text-md text-black">Player</span>):(<span className="badge bg-gray-200 text-md text-black">Organizer</span>)}
+                    {role !== "organizer" ? (<span className="badge bg-gray-200 text-sm text-black">Player</span>):(<span className="badge bg-gray-200 text-md text-black">Organizer</span>)}
                   </Link>
                 </li>
                 <li>
-                  <a className="text-xl text-black font-semibold">Settings</a>
+                  <a className="text-lg text-gray-300 font-semibold">Settings</a>
                 </li>
                 <li>
                   <button  onClick={handleLogout}>
-                  <a className="text-xl text-black font-semibold">Logout</a>
+                  <a className="text-lg text-gray-300 font-semibold">Logout</a>
                   </button>
                 </li>
               </ul>
