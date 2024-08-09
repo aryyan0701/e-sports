@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
-import { FaTrash } from "react-icons/fa";
+import { BsFillCalendar2DateFill } from "react-icons/bs";
+import { FaLocationDot } from "react-icons/fa6";
+import { RiContactsFill } from "react-icons/ri";
+import { GiTrophyCup } from "react-icons/gi";
+import { IoCloseCircleOutline } from "react-icons/io5";
 import { checkUser } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/auth/authSlice";
@@ -77,16 +81,16 @@ const EventList = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(regiForEvent({ eventId: selectedEvent._id, formData }))
-    .unwrap()
-    .then(() => {
-      alert("Registration successful!");
-      closeModal();
-      navigate("/dashboard");
-    })
-    .catch((err) => {
-      console.error("Registration failed:", err);
-      alert("Registration failed. Please try again.");
-    });
+      .unwrap()
+      .then(() => {
+        alert("Registration successful!");
+        closeModal();
+        navigate("/dashboard");
+      })
+      .catch((err) => {
+        console.error("Registration failed:", err);
+        alert("Registration failed. Please try again.");
+      });
   };
 
   if (error) {
@@ -101,58 +105,61 @@ const EventList = () => {
           <h2 className="text-3xl font-bold text-center mb-8">Event List</h2>
           {status === "loading" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-200 justify-between gap-8">
-              <div className="skeleton h-32 w-full"></div>
-              <div className="skeleton h-32 w-full"></div>
-              <div className="skeleton h-32 w-full"></div>
-              <div className="skeleton h-32 w-full"></div>
-              <div className="skeleton h-32 w-full"></div>
-              <div className="skeleton h-32 w-full"></div>
-              <div className="skeleton h-32 w-full"></div>
-              <div className="skeleton h-32 w-full"></div>
-              <div className="skeleton h-32 w-full"></div>
+              <div className="skeleton bg-gray-800 h-[20rem] w-full"></div>
+              <div className="skeleton bg-gray-800 h-[20rem] w-full"></div>
+              <div className="skeleton bg-gray-800 h-[20rem] w-full"></div>
+              <div className="skeleton bg-gray-800 h-[20rem] w-full"></div>
+              <div className="skeleton bg-gray-800 h-[20rem] w-full"></div>
+              <div className="skeleton bg-gray-800 h-[20rem] w-full"></div>
+              <div className="skeleton bg-gray-800 h-[20rem] w-full"></div>
+              <div className="skeleton bg-gray-800 h-[20rem] w-full"></div>
+              <div className="skeleton bg-gray-800 h-[20rem] w-full"></div>
             </div>
           ) : (
             <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {events.map((event) => (
                 <div
                   key={event._id}
-                  className="relative bg-white shadow-md rounded-lg p-6"
+                  className="relative bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out transform  rounded-lg overflow-hidden"
                 >
-                  {role === "organizer" && (
-                    <button
-                      className="absolute top-3 right-4 text-red-500 hover:text-red-700"
-                      // onClick={() => handleDelete(event._id)}
-                    >
-                      <FaTrash size={20} />
-                    </button>
-                  )}
-                  <h3 className="text-xl font-bold mb-2">
-                    {event.name ? event.name.toUpperCase() : "Unnamed Event"}
-                  </h3>
-                  <p className="text-gray-500 mb-2">
-                    <strong>Date:</strong>{" "}
-                    {new Date(event.date).toLocaleDateString()}
-                  </p>
-                  <p className="text-gray-500 mb-2">
-                    <strong>Venue:</strong> {event.venue}
-                  </p>
-                  <p className="text-gray-500 mb-2">
-                    <strong>Contact:</strong> {event.contact}
-                  </p>
-                  <p className="text-gray-500 mb-2">
-                    <strong>Prizepool:</strong> {event.prizepool}
-                  </p>
-                  <p className="text-gray-500 mb-4">
-                    <strong>Description:</strong> {event.description}
-                  </p>
-                  {role !== "organizer" && (
-                    <button
-                      className="text-black font-semibold text-lg bg-gray-300 p-2 rounded focus:outline-none"
-                      onClick={() => openModal(event)}
-                    >
-                      Register
-                    </button>
-                  )}
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-blue-600 mb-6">
+                      {event.name ? event.name.toUpperCase() : "Unnamed Event"}
+                    </h3>
+                    <p className="text-gray-700 mb-2 flex items-center">
+                      <BsFillCalendar2DateFill className="w-5 h-5 text-blue-500 mr-2" />
+                      <strong>Date:</strong>{" "}
+                      <span className="ml-2">
+                        {new Date(event.date).toLocaleDateString()}
+                      </span>
+                    </p>
+                    <p className="text-gray-700 mb-2 flex items-center">
+                      <FaLocationDot className="w-5 h-5 text-blue-500 mr-2" />
+                      <strong>Venue:</strong>{" "}
+                      <span className="ml-2">{event.venue}</span>
+                    </p>
+                    <p className="text-gray-700 mb-2 flex items-center">
+                      <RiContactsFill className="w-5 h-5 text-blue-500 mr-2" />
+                      <strong>Contact:</strong>{" "}
+                      <span className="ml-2">{event.contact}</span>
+                    </p>
+                    <p className="text-gray-700 mb-2 flex items-center">
+                      <GiTrophyCup className="w-5 h-5 text-blue-500 mr-2" />
+                      <strong>Prizepool:</strong>{" "}
+                      <span className="ml-2">{event.prizepool}</span>
+                    </p>
+                    <p className="text-gray-600 mb-6">
+                      <strong>Description:</strong> {event.description}
+                    </p>
+                    {role !== "organizer" && (
+                      <button
+                        className="text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-300 ease-in-out font-semibold text-lg py-2 px-4 rounded-xl focus:outline-none shadow-md"
+                        onClick={() => openModal(event)}
+                      >
+                        Register
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -161,20 +168,20 @@ const EventList = () => {
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
             contentLabel="Register"
-            className={`modal ${modalIsOpen ? "modal-open" : "modal-close"} bg-gray-800`}
+            className={`modal ${modalIsOpen ? "modal-open" : "modal-close"}`}
             overlayClassName="overlay"
           >
-            <div className="flex justify-between items-center p-4 border border-t-0 border-r-0 border-l-0 border-b-4 border-b-black">
-              <h2 className="text-2xl font-bold">
+            <div className="flex justify-between items-center p-4 border-b border-gray-700 mb-4">
+              <h2 className="text-2xl font-bold text-blue-400">
                 Register for {selectedEvent?.name}
               </h2>
-              <button onClick={closeModal} className="close-button absolute top-5 right-5">
-                Close
+              <button onClick={closeModal} className="close-button absolute top-4 right-4">
+                <IoCloseCircleOutline/>
               </button>
             </div>
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <div className="mb-4 mt-5">
+                <div className="mb-4 mt-2">
                   <label
                     className="block text-gray-200 text-md font-bold mb-2"
                     htmlFor="email"
@@ -185,14 +192,14 @@ const EventList = () => {
                     type="email"
                     id="email"
                     name="email"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Enter Email"
                     required
                   />
                 </div>
-                <div className="mb-4 mt-5">
+                <div className="mb-4 mt-2">
                   <label
                     className="block text-gray-200 text-md font-bold mb-2"
                     htmlFor="contactNumber"
@@ -203,14 +210,14 @@ const EventList = () => {
                     type="text"
                     id="contactNumber"
                     name="contactNumber"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={formData.contactNumber}
                     onChange={handleChange}
                     placeholder="Enter Number"
                     required
                   />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 mt-2">
                   <label
                     className="block text-gray-200 text-md font-bold mb-2"
                     htmlFor="teamName"
@@ -221,14 +228,14 @@ const EventList = () => {
                     type="text"
                     id="teamName"
                     name="teamName"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={formData.teamName}
                     onChange={handleChange}
                     placeholder="Enter Team Name"
                     required
                   />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 mt-2">
                   <label
                     className="block text-gray-200 text-md font-bold mb-2"
                     htmlFor="teamMemberCount"
@@ -239,25 +246,25 @@ const EventList = () => {
                     type="text"
                     id="teamMemberCount"
                     name="teamMemberCount"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={formData.teamMemberCount}
                     onChange={handleChange}
                     placeholder="Enter Member Count"
                     required
                   />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 mt-2">
                   <label
                     className="block text-gray-200 text-md font-bold mb-2"
                     htmlFor="address"
                   >
                     Address
                   </label>
-                  <input
+                  <textarea
                     type="text"
                     id="address"
                     name="address"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border border-gray-600 rounded-lg w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={formData.address}
                     onChange={handleChange}
                     placeholder="Enter Address"
@@ -267,7 +274,7 @@ const EventList = () => {
               </div>
               <button
                 type="submit"
-                className="text-black text-lg w-full bg-gray-300 p-2 rounded font-semibold focus:outline-none"
+                className="text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-300 ease-in-out text-lg w-full py-3 rounded-lg font-semibold focus:outline-none focus:ring-4 focus:ring-blue-300 mt-4"
               >
                 Register
               </button>
