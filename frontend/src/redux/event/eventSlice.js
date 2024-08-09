@@ -32,7 +32,7 @@ const eventSlice = createSlice({
         state.error = action.payload.message;
       })
       .addCase(getEvents.pending, (state) => {
-        state.status = 'loading';
+        state.status = 'getEvent loading';
         state.error = null;
       })
       .addCase(getEvents.fulfilled, (state, action) => {

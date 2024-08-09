@@ -66,11 +66,6 @@ const EventList = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
-  };
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -80,17 +75,18 @@ const EventList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(regiForEvent({ eventId: selectedEvent._id, formData }))
-      .unwrap()
-      .then(() => {
-        alert("Registration successful!");
-        closeModal();
-        navigate("/dashboard");
-      })
-      .catch((err) => {
-        console.error("Registration failed:", err);
-        alert("Registration failed. Please try again.");
-      });
+    try {
+      await dispatch(
+        regiForEvent({ eventId: selectedEvent._id, formData })
+      ).unwrap();
+
+      // Close modal after successful registration
+      closeModal();
+      navigate('/profile')
+    } catch (err) {
+      console.error("Registration failed:", err);
+      alert("Registration failed. Please try again.");
+    }
   };
 
   if (error) {
@@ -103,7 +99,7 @@ const EventList = () => {
       <div className="min-h-screen bg-gray-100 py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-8">Event List</h2>
-          {status === "loading" ? (
+          {status === "getEvent loading" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-200 justify-between gap-8">
               <div className="skeleton bg-gray-800 h-[20rem] w-full"></div>
               <div className="skeleton bg-gray-800 h-[20rem] w-full"></div>
@@ -276,7 +272,11 @@ const EventList = () => {
                 type="submit"
                 className="text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-300 ease-in-out text-lg w-full py-3 rounded-lg font-semibold focus:outline-none focus:ring-4 focus:ring-blue-300 mt-4"
               >
-                Register
+                {status === 'loading' ? (
+                  <button className="btn btn-square">
+                  <span className="loading loading-spinner"></span>
+                </button>
+                ): "Register"}
               </button>
             </form>
           </Modal>
