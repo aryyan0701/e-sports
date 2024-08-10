@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import { ClipLoader } from "react-spinners";
 import { loginUser } from "../redux/auth/authApi";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const location = useLocation();
@@ -32,14 +33,14 @@ const Login = () => {
   const handleSubmit = async () => {
     dispatch(loginUser(formData)).then((res) => {
       if (res.type === "auth/login/fulfilled") {
-        setMessage("Login successful! Redirecting to dashboard...");
+        setMessage("Redirecting to dashboard...");
+        toast.success("Login successful");
         setTimeout(() => {
           navigate("/dashboard");
         }, 2000);
-      } else {
-        setMessage(
-          "Login failed. Please check your credentials and try again."
-        );
+      } else if(res.type === "auth/login/rejected") {
+        toast.error(res.payload || "Login failed");
+        setMessage("Please check your credentials and try again.");
       }
     });
   };
@@ -59,6 +60,7 @@ const Login = () => {
             "url('https://images7.alphacoders.com/132/1320094.jpeg')",
         }}
       >
+        <Toaster/>
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 w-full max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-white">Login</h2>
@@ -100,9 +102,9 @@ const Login = () => {
             <button
               type="submit"
               className="w-full px-4 py-2 font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-              disabled={authStatus === 'loading'}
+              disabled={authStatus === "login loading"}
             >
-              {authStatus === "loading" ? (
+              {authStatus === "login loading" ? (
                 <ClipLoader size={20} color={"#fff"} />
               ) : (
                 "Login"
@@ -115,8 +117,12 @@ const Login = () => {
               </Link>
             </p>
           </form>
-          {authStatus === 'failed' && <p className="mt-4 text-center text-sm text-red-400">{authError}</p>}
-          {authStatus === 'succeeded' && <p className="mt-4 text-center text-sm text-green-400">{message}</p>}
+          {authStatus === "login failed" && (
+            <p className="mt-4 text-center text-sm text-red-400">{message}</p>
+          )}
+          {authStatus === "login succeeded" && (
+            <p className="mt-4 text-center text-sm text-green-400">{message}</p>
+          )}
         </div>
       </div>
     </>

@@ -22,29 +22,29 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(signupUser.pending, (state) => {
-        state.status = "loading";
+        state.status = "signup loading";
       })
       .addCase(signupUser.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.status = "signup succeeded";
         state.user = action.payload.user;
         sessionStorage.setItem("token", action.payload.token);
         sessionStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(signupUser.rejected, (state, action) => {
-        state.status = "failed";
+        state.status = "signup failed";
         state.error = action.payload || action.error.message;
       })
       .addCase(loginUser.pending, (state) => {
-        state.status = "loading";
+        state.status = "login loading";
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.status = "login succeeded";
         state.user = action.payload.user;
         sessionStorage.setItem("token", action.payload.token);
         sessionStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.status = "failed";
+        state.status = "login failed";
         state.error = action.payload || action.error.message;
       });
   },

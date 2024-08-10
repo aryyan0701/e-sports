@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import { ClipLoader } from 'react-spinners'; 
 import { signupUser } from '../redux/auth/authApi';
 import { useDispatch, useSelector } from 'react-redux';
+import toast, { Toaster } from "react-hot-toast";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -43,12 +44,14 @@ const Register = () => {
 
     dispatch(signupUser(formData)).then((res) =>{
       if(res.type === 'auth/register/fulfilled'){
-        setMessage('Registration successful! Redirecting to login page...');
+        setMessage('Redirecting to login page...');
+        toast.success("Registration successful");
         setTimeout(() =>{
           navigate('/login')
         }, 2000)
-      } else{
-        setMessage('Registration failed. Please try again.');
+      } else if(res.type === "auth/register/rejected") {
+        setMessage('Please try again.');
+        toast.error('Registration failed.');
       }
     })
   };
@@ -56,7 +59,7 @@ const Register = () => {
   return (
     <>
       <Navbar />
-      <div className="relative flex justify-center items-center min-h-screen bg-cover bg-center pt-10" style={{ backgroundImage: "url('https://images4.alphacoders.com/132/1320095.jpeg')" }}>
+      <div className="relative flex justify-center items-center min-h-screen bg-cover bg-center pt-10" style={{ backgroundImage: "url('https://images4.alphacoders.com/132/1320095.jpeg')" }}>  <Toaster/>
         <div className="absolute inset-0 bg-black opacity-50"></div> {/* Optional: For better readability */}
         <div className="relative z-10 w-full max-w-lg md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-white">Register</h2>
@@ -147,7 +150,7 @@ const Register = () => {
               className="w-full px-4 py-2 font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
               disabled={authStatus === 'loading'} 
             >
-              {authStatus === 'loading'  ? (
+              {authStatus === 'signup loading'  ? (
                 <ClipLoader size={20} color={"#fff"} /> 
               ) : (
                 "Register"
@@ -155,8 +158,8 @@ const Register = () => {
             </button>
             <p className="text-sm text-center">Already have an account..? <Link to='/login' className="font-semibold text-white">Click Here</Link></p>
           </form>
-          {authStatus === 'failed' && <p className="mt-4 text-center text-sm text-red-400">{authError}</p>}
-          {authStatus === 'succeeded' && <p className="mt-4 text-center text-sm text-green-400">{message}</p>}
+          {authStatus === 'signup failed' && <p className="mt-4 text-center text-sm text-red-400">{authError}</p>}
+          {authStatus === 'signup succeeded' && <p className="mt-4 text-center text-sm text-green-400">{message}</p>}
         </div>
       </div>
     </>
