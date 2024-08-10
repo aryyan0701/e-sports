@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { FaPlusSquare } from "react-icons/fa";;
 import { RiTeamFill } from "react-icons/ri";
 import { FaNewspaper } from "react-icons/fa6";
+import ScrollToTop from '../components/ScrollToTop';
 
 
 function DashBoard() {
@@ -13,6 +14,7 @@ function DashBoard() {
   return (
     <>
       <DashNavbar />
+      <ScrollToTop/>
       <div className="relative flex justify-center items-center min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('https://i.pinimg.com/originals/7d/2a/9f/7d2a9fca264faa93561f72b5fc885fec.gif')" }}>
         <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
           <div className="text-4xl text-white font-bold text-center">

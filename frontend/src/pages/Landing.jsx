@@ -2,11 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import GameSlider from '../components/GameSlider';
 import Navbar from '../components/Navbar';
+import ScrollToTop from '../components/ScrollToTop';
 
 const Landing = () => {
   return (
     <>
     <Navbar/>
+    <ScrollToTop/>
     <div className="bg-gray-300 min-h-screen">
       {/* Hero section */}
       <div className="relative w-full h-screen bg-cover bg-center" style={{ backgroundImage: "url('https://t4.ftcdn.net/jpg/05/63/31/87/360_F_563318702_OMWeOJ39uEeb76lulVtLTm80zwsbWYGd.jpg')" }}>

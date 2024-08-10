@@ -18,7 +18,7 @@ export const createEvent = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data.message || 'Error to create Event');
     }
   }
 );
@@ -30,7 +30,7 @@ export const getEvents = createAsyncThunk(
       const response = await axios.get('http://localhost:5000/api/events');
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data.message || 'Error to fetch Events');
     }
   }
 );
@@ -50,7 +50,7 @@ export const regiForEvent = createAsyncThunk(
       if (!error.response) {
         throw error;
       }
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data.message || 'Event Registration failed');
     }
   }
 );

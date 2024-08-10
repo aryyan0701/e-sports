@@ -158,8 +158,8 @@ const Register = () => {
             </button>
             <p className="text-sm text-center">Already have an account..? <Link to='/login' className="font-semibold text-white">Click Here</Link></p>
           </form>
-          {authStatus === 'signup failed' && <p className="mt-4 text-center text-sm text-red-400">{authError}</p>}
-          {authStatus === 'signup succeeded' && <p className="mt-4 text-center text-sm text-green-400">{message}</p>}
+          {authError && <p className="mt-4 text-center text-sm text-red-400">{authError}</p>}
+          {message && <p className="mt-4 text-center text-sm text-green-400">{message}</p>}
         </div>
       </div>
     </>

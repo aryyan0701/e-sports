@@ -44,15 +44,15 @@ const eventSlice = createSlice({
         state.error = action.payload.message;
       })
       .addCase(regiForEvent.pending, (state) => {
-        state.status = 'loading';
+        state.status = 'regi loading';
         state.error = null;
       })
       .addCase(regiForEvent.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = 'regi succeeded';
         state.message = 'Registration successful!';
       })
       .addCase(regiForEvent.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = 'regi failed';
         state.error = action.payload.message;
       });
   }

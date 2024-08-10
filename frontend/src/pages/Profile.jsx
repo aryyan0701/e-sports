@@ -5,6 +5,7 @@ import { logout } from "../redux/auth/authSlice";
 import { checkUser } from "../redux/user/userSlice";
 import { fetchUserEvents } from "../redux/user/userApi";
 import DashNavbar from "../components/DashNavbar";
+import ScrollToTop from "../components/ScrollToTop";
 
 const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,6 +57,7 @@ const Profile = () => {
   return (
     <>
       <DashNavbar />
+      <ScrollToTop />
       {status === "loading" ? (
         <div className="flex justify-center items-center min-h-screen bg-gray-200">
           <div className="flex w-[40rem] flex-col gap-4">

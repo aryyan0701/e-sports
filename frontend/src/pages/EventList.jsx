@@ -8,9 +8,10 @@ import { GiTrophyCup } from "react-icons/gi";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { checkUser } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../redux/auth/authSlice";
+import toast, { Toaster } from "react-hot-toast";
 import { getEvents, regiForEvent } from "../redux/event/eventApi";
 import DashNavbar from "../components/DashNavbar";
+import ScrollToTop from "../components/ScrollToTop";
 
 Modal.setAppElement("#root");
 
@@ -32,6 +33,7 @@ const EventList = () => {
   const events = useSelector((state) => state.event.events);
   const status = useSelector((state) => state.event.status);
   const error = useSelector((state) => state.event.error);
+  const message = useSelector((state) => state.event.message);
 
   const { role } = useSelector((state) => state.user);
 
@@ -47,8 +49,6 @@ const EventList = () => {
     const timer = setTimeout(() => {
       setShowSkeleton(false);
     }, 1000);
-
-    // Clean up the timer on component unmount
     return () => clearTimeout(timer);
   }, []);
 
@@ -66,7 +66,7 @@ const EventList = () => {
       teamName: "",
       teamMemberCount: "",
       address: "",
-    })
+    });
   };
 
   const toggleMenu = () => {
@@ -86,13 +86,13 @@ const EventList = () => {
       await dispatch(
         regiForEvent({ eventId: selectedEvent._id, formData })
       ).unwrap();
-
-      // Close modal after successful registration
-      closeModal();
-      navigate('/profile')
+      toast.success("Event Registration successful");
+      setTimeout(() => {
+        closeModal();
+        navigate("/profile");
+      }, 2000);
     } catch (err) {
-      console.error("Registration failed:", err);
-      alert("Registration failed. Please try again.");
+      toast.error("Registration failed.");
     }
   };
 
@@ -103,7 +103,9 @@ const EventList = () => {
   return (
     <>
       <DashNavbar />
+      <ScrollToTop />
       <div className="min-h-screen bg-gray-100 py-10">
+        <Toaster />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-8">Event List</h2>
           {status === "getEvent loading" ? (
@@ -123,40 +125,40 @@ const EventList = () => {
               {events.map((event) => (
                 <div
                   key={event._id}
-                  className="relative bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out transform  rounded-lg overflow-hidden"
+                  className="relative bg-base-200 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out transform  rounded-lg overflow-hidden"
                 >
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-blue-600 mb-6">
                       {event.name ? event.name.toUpperCase() : "Unnamed Event"}
                     </h3>
-                    <p className="text-gray-700 mb-2 flex items-center">
+                    <p className="text-gray-200 mb-2 flex items-center">
                       <BsFillCalendar2DateFill className="w-5 h-5 text-blue-500 mr-2" />
                       <strong>Date:</strong>{" "}
                       <span className="ml-2">
                         {new Date(event.date).toLocaleDateString()}
                       </span>
                     </p>
-                    <p className="text-gray-700 mb-2 flex items-center">
+                    <p className="text-gray-200 mb-2 flex items-center">
                       <FaLocationDot className="w-5 h-5 text-blue-500 mr-2" />
                       <strong>Venue:</strong>{" "}
                       <span className="ml-2">{event.venue}</span>
                     </p>
-                    <p className="text-gray-700 mb-2 flex items-center">
+                    <p className="text-gray-200 mb-2 flex items-center">
                       <RiContactsFill className="w-5 h-5 text-blue-500 mr-2" />
                       <strong>Contact:</strong>{" "}
                       <span className="ml-2">{event.contact}</span>
                     </p>
-                    <p className="text-gray-700 mb-2 flex items-center">
+                    <p className="text-gray-200 mb-2 flex items-center">
                       <GiTrophyCup className="w-5 h-5 text-blue-500 mr-2" />
                       <strong>Prizepool:</strong>{" "}
                       <span className="ml-2">{event.prizepool}</span>
                     </p>
-                    <p className="text-gray-600 mb-6">
+                    <p className="text-gray-200 mb-8">
                       <strong>Description:</strong> {event.description}
                     </p>
                     {role !== "organizer" && (
                       <button
-                        className="text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-300 ease-in-out font-semibold text-lg py-2 px-4 rounded-xl focus:outline-none shadow-md"
+                        className="absolute bottom-2 right-3 text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-300 ease-in-out font-semibold text-lg py-2 px-4 rounded-xl focus:outline-none shadow-md"
                         onClick={() => openModal(event)}
                       >
                         Register
@@ -176,10 +178,13 @@ const EventList = () => {
           >
             <div className="flex justify-between items-center p-4 border-b border-gray-700 mb-4">
               <h2 className="text-2xl font-bold text-blue-400">
-                Registration For {selectedEvent?.name.toUpperCase() }
+                Registration For {selectedEvent?.name.toUpperCase()}
               </h2>
-              <button onClick={closeModal} className="close-button absolute top-4 right-4">
-                <IoCloseCircleOutline/>
+              <button
+                onClick={closeModal}
+                className="close-button absolute top-4 right-4"
+              >
+                <IoCloseCircleOutline />
               </button>
             </div>
             <form onSubmit={handleSubmit}>
@@ -275,16 +280,26 @@ const EventList = () => {
                   />
                 </div>
               </div>
+              {status === 'regi loading' ? (
+                   <button className="btn btn-square text-white bg-blue-500 text-lg w-full py-3">
+                    <span className="loading loading-spinner"></span>
+                  </button>
+              ):( 
               <button
                 type="submit"
                 className="text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-300 ease-in-out text-lg w-full py-3 rounded-lg font-semibold focus:outline-none focus:ring-4 focus:ring-blue-300 mt-4"
-              >
-                {status === 'loading' ? (
-                  <button className="btn btn-square">
-                  <span className="loading loading-spinner"></span>
-                </button>
-                ): "Register"}
+              >Register
               </button>
+              )}
+              {error && (
+                <p className="mt-4 text-center text-sm text-red-400">{error}</p>
+              )}
+
+              {status === 'regi succeeded' && (
+                <p className="mt-4 text-center text-sm text-green-400">
+                  {message}
+                </p>
+              )}
             </form>
           </Modal>
         </div>
