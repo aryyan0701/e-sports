@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchLeaguesNews, fetchMatchesNews } from "./newsApi";
+import { fetchLeaguesNews, fetchMatchesNews, fetchHeadtoHeadMatches } from "./newsApi";
 
 const initialState = {
-  news: [],
+  leaguesNews: [],
+  matchesNews: [],
+  H2HMatches: [],
   status: 'idle',
   error: null,
 };
@@ -19,7 +21,7 @@ const newsSlice = createSlice({
       })
       .addCase(fetchLeaguesNews.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.news = action.payload;
+        state.leaguesNews = action.payload;
       })
       .addCase(fetchLeaguesNews.rejected, (state, action) => {
         state.status = 'failed';
@@ -31,9 +33,21 @@ const newsSlice = createSlice({
       })
       .addCase(fetchMatchesNews.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.news = action.payload;
+        state.matchesNews = action.payload;
       })
       .addCase(fetchMatchesNews.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(fetchHeadtoHeadMatches.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(fetchHeadtoHeadMatches.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.H2HMatches = action.payload;
+      })
+      .addCase(fetchHeadtoHeadMatches.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       });

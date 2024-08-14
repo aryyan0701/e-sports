@@ -39,3 +39,23 @@ export const fetchMatchesNews = createAsyncThunk(
     }
   }
 )
+
+
+export const fetchHeadtoHeadMatches = createAsyncThunk(
+  'news/fetchLiveMatch',
+  async(_, thunkAPI) =>{
+    try {
+      const response = await axios.get('https://allsportsapi2.p.rapidapi.com/api/esport/event/jTVcsXcZc/h2h', {
+        headers: {
+          'x-rapidapi-key': '80a02ce969mshc67c680f8319ec9p11e698jsn3f43993bbbb1',
+          'x-rapidapi-host': 'allsportsapi2.p.rapidapi.com'
+        }
+      })
+      console.log(response.data)
+      return response.data;
+    } catch (error) {
+      console.error("Error in fetching live matches:", error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+)
