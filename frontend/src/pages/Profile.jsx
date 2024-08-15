@@ -60,11 +60,9 @@ const Profile = () => {
       <ScrollToTop />
       {status === "loading" ? (
         <div className="flex justify-center items-center min-h-screen bg-gray-200">
-          <div className="flex w-[40rem] flex-col gap-4">
-            <div className="skeleton h-[25rem] w-full bg-gray-500 rounded-md animate-pulse"></div>
-            <div className="skeleton h-4 w-28 bg-gray-500 rounded-md animate-pulse"></div>
-            <div className="skeleton h-4 w-full bg-gray-500 rounded-md animate-pulse"></div>
-            <div className="skeleton h-4 w-full bg-gray-500 rounded-md animate-pulse"></div>
+          <div className="flex w-[40rem] flex-row gap-4">
+            <div className="skeleton h-[25rem] w-auto bg-gray-500 rounded-md animate-pulse"></div>
+            <div className="skeleton h-[22rem] w-auto bg-gray-500 rounded-md animate-pulse"></div>
           </div>
         </div>
       ) : (
@@ -114,59 +112,69 @@ const Profile = () => {
           <div className="relative z-10 w-full max-w-lg md:max-w-4xl p-14 space-y-4 bg-gray-800 rounded-lg shadow-lg">
             {role === "organizer" ? (
               <>
+                <div className="grid gap-4 grid-cols-1">
                 <h2 className="text-3xl font-bold text-center text-base-600 mb-6">
                 Created Events
                 </h2>
-                <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                  {createdEvents.length > 0 ? (
-                    createdEvents.map((event) => (
-                      <div
-                        key={event._id}
-                        className="bg-gray-700 p-6 rounded-lg shadow-lg"
-                      >
-                        <h3 className="text-lg font-bold text-white mb-4">
-                          {event.name.toUpperCase()}
-                        </h3>
-                        <p className="text-md text-gray-300 mb-2">
-                          Date: {new Date(event.date).toLocaleDateString()}
-                        </p>
-                        <p className="text-md text-gray-300 mb-2">
-                          Venue: {event.venue}
-                        </p>
-                        <p className="text-md text-gray-300 mb-2">
-                          Contact: {event.contact}
-                        </p>
+                {createdEvents.length > 0 ? (
+                  createdEvents.map((event) => (
+                    <>
+                    <div
+                      key={event._id}
+                      className="bg-gray-700 p-4 rounded-lg shadow-lg"
+                    >
+                      <h3 className="text-lg font-bold text-blue-700 mb-4">
+                        {event.name.toUpperCase()}
+                      </h3>
+                      <div className="flex justify-between space-x-14">
+                      <p className="text-md font-semibold text-gray-200 mb-2">
+                        Date: {new Date(event.date).toLocaleDateString()}
+                      </p>
+                      <p className="text-md font-semibold text-gray-200 mb-2">
+                        Venue: {event.venue}
+                      </p>
+                      <p className="text-md font-semibold text-gray-200 mb-2">
+                        Contact: {event.contact}
+                      </p>
                       </div>
-                    ))
-                  ) : (
-                    <p className="text-lg text-gray-300">No events found.</p>
-                  )}
-                </div>
+                    </div>  
+                    </>
+                  
+                  ))
+                ) : (
+                  <p className="text-lg text-gray-300">No events found.</p>
+                )}
+              </div>              
               </>
             ) : (
               <>
                 <h2 className="text-3xl font-bold text-center text-base-600 mb-6">
                   Upcoming Events
                 </h2>
-                <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-4 grid-cols-1">
                   {registeredEvents.length > 0 ? (
                     registeredEvents.map((event) => (
                       <div
                         key={event._id}
                         className="bg-gray-700 p-6 rounded-lg shadow-lg"
                       >
-                        <h3 className="text-lg font-semibold text-white mb-4">
+                        <h3 className="text-lg font-bold text-blue-700  mb-4">
                           {event.name.toUpperCase()}
                         </h3>
-                        <p className="text-md text-gray-300 mb-2">
+                      <div className="flex justify-between space-x-14">
+                        <p className="text-md font-semibold text-gray-200 mb-2">
                           Date: {new Date(event.date).toLocaleDateString()}
                         </p>
-                        <p className="text-md text-gray-300 mb-2">
+                        <p className="text-md font-semibold text-gray-200 mb-2">
                           Venue: {event.venue}
                         </p>
-                        <p className="text-md text-gray-300 mb-2">
+                        <p className="text-md font-semibold text-gray-200 mb-2">
                           Prizepool: {event.prizepool}
                         </p>
+                      <p className="text-md font-semibold text-gray-200 mb-2">
+                        Contact: {event.contact}
+                      </p>
+                        </div>
                       </div>
                     ))
                   ) : (
