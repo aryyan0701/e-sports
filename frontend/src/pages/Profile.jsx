@@ -62,7 +62,6 @@ const Profile = () => {
         <div className="flex justify-center items-center min-h-screen bg-gray-200">
           <div className="flex w-[40rem] flex-row gap-4">
             <div className="skeleton h-[25rem] w-auto bg-gray-500 rounded-md animate-pulse"></div>
-            <div className="skeleton h-[22rem] w-auto bg-gray-500 rounded-md animate-pulse"></div>
           </div>
         </div>
       ) : (

@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const handleDemoLogin = () => {
-    navigate('/login', { state: { email: 'demo@gmail.com', password: 'demo12' } });
+    if (location.pathname === '/login') {
+      // Custom event for demo login
+      const event = new CustomEvent('demoLogin', {
+        detail: { email: 'demo@gmail.com', password: 'demo12' }
+      });
+      window.dispatchEvent(event);
+    } else {
+      navigate('/login', { state: { email: 'demo@gmail.com', password: 'demo12' } });
+    }
   };
 
   return (

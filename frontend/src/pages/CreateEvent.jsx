@@ -6,6 +6,7 @@ import { FiExternalLink } from 'react-icons/fi';
 import { createEvent } from '../redux/event/eventApi';
 import { clearMessage } from '../redux/event/eventSlice';
 import { checkUser } from "../redux/user/userSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 const CreateEvent = () => {
   const [formData, setFormData] = useState({
@@ -30,6 +31,15 @@ const CreateEvent = () => {
     dispatch(checkUser('User data not found'));
   }, [dispatch]);
 
+  useEffect(() => {
+    if (eventMessage) {
+      const timer = setTimeout(() => {
+        dispatch(clearMessage());
+      }, 3000); // Clear the message after 3 seconds
+      return () => clearTimeout(timer); // Cleanup timer on component unmount
+    }
+  }, [eventMessage, dispatch]);
+
   const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
@@ -50,7 +60,12 @@ const CreateEvent = () => {
         contact: '',
         prizepool: ''
       });
-      navigate('/eventlist');
+      toast.success("Event created successfully");
+      setTimeout(() =>{
+        navigate('/eventlist')
+      }, 2000)
+    }else{
+      toast.error("Error creating the event");
     }
   };
 
@@ -63,6 +78,7 @@ const CreateEvent = () => {
           backgroundImage: "url('https://weezevent.com/wp-content/uploads/2018/10/15140712/compet_esport.jpg')"
         }}
       >
+        <Toaster />
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 w-full max-w-lg md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-white">Create Event</h2>

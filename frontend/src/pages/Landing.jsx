@@ -26,7 +26,7 @@ const Landing = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Upcoming Events */}
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4">Upcoming Events</h3>
+            <h3 className="text-2xl text-blue-600 font-semibold mb-4">Upcoming Events</h3>
             <p className="text-gray-700 mb-4">
               Stay updated with the latest tournaments and events in the e-sports world.
             </p>
@@ -34,7 +34,7 @@ const Landing = () => {
 
           {/* Registration */}
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4">Registration</h3>
+            <h3 className="text-2xl text-blue-600 font-semibold mb-4">Registration</h3>
             <p className="text-gray-700 mb-4">
               Easy registration process for players and organizations to get started.
             </p>
@@ -42,7 +42,7 @@ const Landing = () => {
 
           {/* Connect with Players */}
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4">Connect with Players</h3>
+            <h3 className="text-2xl text-blue-600 font-semibold mb-4">Connect with Players</h3>
             <p className="text-gray-700 mb-4">
               Network and connect with other players to form teams and enhance your gaming experience.
             </p>
@@ -50,7 +50,7 @@ const Landing = () => {
 
           {/* Benefits for Organizing Companies */}
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4">Benefits for Organizing Companies</h3>
+            <h3 className="text-2xl text-blue-600 font-semibold mb-4">Benefits for Organizing Companies</h3>
             <p className="text-gray-700 mb-4">
               Gain exposure and access to a larger audience by organizing e-sports events on our platform.
             </p>
@@ -62,7 +62,7 @@ const Landing = () => {
           {/* Option 1: E-Sports Player */}
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-4">
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-2xl font-bold mb-4">Are you an e-sports player?</h2>
+              <h2 className="text-2xl text-blue-600 font-bold mb-4">Are you an e-sports player?</h2>
               <p className="text-gray-700 mb-4">Join tournaments, connect with other players, and showcase your skills!</p>
               <p className="text-gray-700 mb-4">Stay updated with the latest tournaments and competitions tailored for your favorite games.</p>
               <p className="text-gray-700 mb-4">Create your profile and register for events with ease, all in one place.</p>
@@ -81,7 +81,7 @@ const Landing = () => {
               <img src="https://esportsresults.com/wp-content/uploads/2023/01/tournament-organizers.jpg" alt="" className="w-full h-auto rounded-md" />
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-2xl font-bold mb-4">Are you an organization?</h2>
+              <h2 className="text-2xl text-blue-600 font-bold mb-4">Are you an organization?</h2>
               <p className="text-gray-700 mb-4">Host tournaments, manage events, and build your e-sports community!</p>
               <p className="text-gray-700 mb-4">Connect with skilled players looking for opportunities to compete and showcase their talents.</p>
               <p className="text-gray-700 mb-4">Gain visibility and attract participants from a global community of e-sport enthusiasts.</p>
@@ -105,7 +105,7 @@ const Landing = () => {
         
         {/* About the app */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-          <h2 className="text-xl font-semibold mb-4">About Our App</h2>
+          <h2 className="text-2xl text-blue-600 font-semibold mb-4">About Our App</h2>
           <p className="text-gray-700">
             Our platform provides a comprehensive solution for e-sports players and organizations.
             Whether you're a player looking to join tournaments or an organization managing events,

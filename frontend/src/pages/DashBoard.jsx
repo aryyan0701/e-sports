@@ -10,7 +10,7 @@ import ScrollToTop from '../components/ScrollToTop';
 
 
 function DashBoard() {
-  const words = ["Welcome to Battelfy", "Where Gamers Unite and Compete", "Elevate Your e-Sports Experience", "Empowering e-Sports Heroes"];
+  const words = ["Welcome to Battelfy", "Where Gamers Unite and Compete", "Elevate Your E-Sports Experience", "Empowering e-Sports Heroes"];
   return (
     <>
       <DashNavbar />

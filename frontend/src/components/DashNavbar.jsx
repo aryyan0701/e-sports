@@ -5,6 +5,7 @@ import { FaWindowClose } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUser } from "../redux/user/userSlice";
 import { logout } from "../redux/auth/authSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 const DashNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +24,10 @@ const DashNavbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/login");
+    toast.success("Logout successful");
+    setTimeout(() =>{
+      navigate('/login')
+    }, 2000)
   };
 
   return (
@@ -76,7 +80,8 @@ const DashNavbar = () => {
           </div>
         </div>
       </nav>
-
+      
+      <Toaster/>
       <div
         className={`drawer ${isOpen ? "drawer-open fixed inset-0 z-50" : ""}`}
       >
