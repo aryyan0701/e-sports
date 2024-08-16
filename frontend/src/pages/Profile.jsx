@@ -67,49 +67,40 @@ const Profile = () => {
         </div>
       ) : (
           <div className="hero bg-base-200 min-h-screen">
-            <div className="hero-content flex-col lg:flex-row">
+            <div className="hero-content flex-col ">
                  {/* user details */}
-          <div className="relative z-10 w-full max-w-md md:max-w-sm p-14 space-y-4 bg-gray-800 rounded-lg shadow-lg">
-            {/* <h2 className="text-3xl font-bold text-center text-white mb-6">
+          <div className="relative z-10 md:flex  w-full max-w-md md:max-w-4xl p-14 space-x-10 space-y-8 bg-gray-800 rounded-lg shadow-lg">
+            <div>
+            <h2 className="text-3xl font-bold text-center text-white mb-6">
               Your Details
-            </h2> */}
-            <div className="flex flex-col items-center space-t-20">
-              {user.profileImage && (
+            </h2>
+            {user.profileImage && (
                 <div className="text-center">
                   <img
                     src={`http://localhost:5000${user.profileImage}`}
                     alt="Profile"
-                    className="w-30 h-26 rounded-full"
+                    className="w-[20rem] h-[14rem] rounded-2xl"
                   />
                 </div>
               )}
-              <div className="text-start grid grid-cols-2 gap-2 py-10">
-                <div>
-                  <p className="text-lg font-medium text-gray-300">Name</p>
+            </div>
+            <div className="grid gap-4 ">  
+                  <p className="text-lg font-medium text-gray-300">Name: {user.name.toUpperCase()}</p>
                   <p className="text-lg font-medium text-gray-300 mt-2">
-                    Email
+                    Email: {user.email}
                   </p>
                   <p className="text-lg font-medium text-gray-300 mt-2">
-                    Number
+                    Number: {user.phoneNumber}
                   </p>
                   <p className="text-lg font-medium text-gray-300 mt-2">
-                    Role
+                    Role: {user.role}
                   </p>
-                  <p className="text-lg font-medium text-gray-300 mt-2">Bio</p>
-                </div>
-                <div>
-                  <p className="text-lg text-white">{user.name}</p>
-                  <p className="text-lg text-white mt-2">{user.email}</p>
-                  <p className="text-lg text-white mt-2">{user.phoneNumber}</p>
-                  <p className="text-lg text-white mt-2">{user.role}</p>
-                  <p className="text-lg text-white mt-2">{user.bio}</p>
-                </div>
-              </div>
+                  <p className="text-lg font-medium text-gray-300 mt-2">Bio: {user.bio}</p>
             </div>
           </div>
               <div>
                  {/* events details */}
-          <div className="relative z-10 w-full max-w-lg md:max-w-4xl p-14 space-y-4 bg-gray-800 rounded-lg shadow-lg">
+          <div className="relative z-10 w-full max-w-md md:max-w-4xl p-16 space-y-4 bg-gray-800 rounded-lg shadow-lg">
             {role === "organizer" ? (
               <>
                 <div className="grid gap-4 grid-cols-1">
@@ -126,7 +117,7 @@ const Profile = () => {
                       <h3 className="text-lg font-bold text-blue-700 mb-4">
                         {event.name.toUpperCase()}
                       </h3>
-                      <div className="flex justify-between space-x-14">
+                      <div className="md:flex md:flex-row flex-col justify-between md:space-x-14">
                       <p className="text-md font-semibold text-gray-200 mb-2">
                         Date: {new Date(event.date).toLocaleDateString()}
                       </p>
@@ -161,7 +152,7 @@ const Profile = () => {
                         <h3 className="text-lg font-bold text-blue-700  mb-4">
                           {event.name.toUpperCase()}
                         </h3>
-                      <div className="flex justify-between space-x-14">
+                      <div className="md:flex md:flex-row flex-col justify-between md:space-x-14">
                         <p className="text-md font-semibold text-gray-200 mb-2">
                           Date: {new Date(event.date).toLocaleDateString()}
                         </p>
