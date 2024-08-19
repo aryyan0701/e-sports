@@ -32,7 +32,7 @@ To get started with the project, follow these steps:
 
 1. Clone the repository:
    
-git clone https://github.com/aryyan0701/github_repofinder.git
+git clone https://github.com/aryyan0701/e-sports.git
 
 2. Navigate into the project directory:
    
