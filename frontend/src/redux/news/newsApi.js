@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_NEWS_API;
+const RAPID_API_KEY = import.meta.env.VITE_NEWS_RAPID_API
 
 export const fetchLeaguesNews = createAsyncThunk(
   'news/fetchLeaguesNews',
@@ -47,7 +48,7 @@ export const fetchHeadtoHeadMatches = createAsyncThunk(
     try {
       const response = await axios.get('https://allsportsapi2.p.rapidapi.com/api/esport/event/jTVcsXcZc/h2h', {
         headers: {
-          'x-rapidapi-key': '80a02ce969mshc67c680f8319ec9p11e698jsn3f43993bbbb1',
+          'x-rapidapi-key': RAPID_API_KEY,
           'x-rapidapi-host': 'allsportsapi2.p.rapidapi.com'
         }
       })
