@@ -8,7 +8,7 @@ export const createEvent = createAsyncThunk(
   async (eventData, { rejectWithValue }) => {
     try {
       const token = getToken();
-      const response = await axios.post('http://localhost:5000/api/events/create', eventData, {
+      const response = await axios.post('https://e-sports-ynb7.onrender.com/api/events/create', eventData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -27,7 +27,7 @@ export const getEvents = createAsyncThunk(
   'event/getEvents',
   async (thunkAPI) => {
     try {
-      const response = await axios.get('http://localhost:5000/api/events');
+      const response = await axios.get('https://e-sports-ynb7.onrender.com/api/events');
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message || 'Error to fetch Events');
@@ -40,7 +40,7 @@ export const regiForEvent = createAsyncThunk(
   async ({ eventId, formData }, { rejectWithValue }) => {
     try {
       const token = getToken();
-      const response = await axios.post(`http://localhost:5000/api/events/${eventId}/register`, formData, {
+      const response = await axios.post(`https://e-sports-ynb7.onrender.com/api/events/${eventId}/register`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

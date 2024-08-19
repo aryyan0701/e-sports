@@ -6,12 +6,12 @@ export const fetchUserEvents = createAsyncThunk(
   async ({ userId, role, email }, { rejectWithValue }) => {
     try {
       if (role === 'organizer') {
-        const createdEventsRes = await axios.get("http://localhost:5000/api/events");
+        const createdEventsRes = await axios.get("https://e-sports-ynb7.onrender.com/api/events");
         const filteredEvents = createdEventsRes.data.filter(event => event.userEmail === email);
         return { createdEvents: filteredEvents };
       } else if (role === 'player') {
         const token = sessionStorage.getItem('token');
-        const registeredEventsRes = await axios.get(`http://localhost:5000/api/events/player/${userId}/registered`, {
+        const registeredEventsRes = await axios.get(`https://e-sports-ynb7.onrender.com/api/events/player/${userId}/registered`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         return { registeredEvents: registeredEventsRes.data };

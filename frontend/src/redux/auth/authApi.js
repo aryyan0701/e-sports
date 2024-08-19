@@ -5,7 +5,7 @@ export const signupUser = createAsyncThunk(
   'auth/register',
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/users/register', formData, {
+      const response = await axios.post('https://e-sports-ynb7.onrender.com/api/users/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -21,7 +21,7 @@ export const loginUser = createAsyncThunk(
   'auth/login',
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', formData);
+      const response = await axios.post('https://e-sports-ynb7.onrender.com/api/users/login', formData);
       const { token, user } = response.data;
 
       // Store the token in session storage
