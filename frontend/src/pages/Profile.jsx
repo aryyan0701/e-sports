@@ -76,7 +76,7 @@ const Profile = () => {
             {user.profileImage && (
                 <div className="text-center">
                   <img
-                    src={`http://localhost:5000${user.profileImage}`}
+                    src={`https://e-sports-ynb7.onrender.com${user.profileImage}`}
                     alt="Profile"
                     className="w-[20rem] h-[14rem] rounded-2xl"
                   />
