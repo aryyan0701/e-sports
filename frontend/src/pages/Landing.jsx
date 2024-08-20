@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import GameSlider from '../components/GameSlider';
 import Navbar from '../components/Navbar';
 import ScrollToTop from '../components/ScrollToTop';
+import Footer from "../components/Footer";
 
 const Landing = () => {
   return (
@@ -120,23 +121,7 @@ const Landing = () => {
         </div>
       </div>
           {/* Footer */}
-          <footer className="bg-gray-800 text-white py-8 px-8">
-          <div className="container mx-auto">
-            <div className="flex justify-between items-center">
-              <div>
-                <h3 className="text-xl font-semibold">E-Sports Dashboard</h3>
-                <p className="mt-2">Your go-to platform for all things e-sports!</p>
-              </div>
-              <div>
-                <ul className="flex space-x-4">
-                  <li><Link to="/about" className="hover:text-gray-300">About Us</Link></li>
-                  <li><Link to="/contact" className="hover:text-gray-300">Contact</Link></li>
-                  <li><Link to="/terms" className="hover:text-gray-300">Terms of Service</Link></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </footer>
+          <Footer/>
     </div>  
     </>
   
