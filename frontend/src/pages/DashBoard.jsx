@@ -7,6 +7,7 @@ import { FaPlusSquare } from "react-icons/fa";;
 import { RiTeamFill } from "react-icons/ri";
 import { FaNewspaper } from "react-icons/fa6";
 import ScrollToTop from '../components/ScrollToTop';
+import Footer from '../components/Footer';
 
 
 function DashBoard() {
@@ -17,7 +18,7 @@ function DashBoard() {
       <ScrollToTop/>
       <div className="relative flex justify-center items-center min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('https://i.pinimg.com/originals/7d/2a/9f/7d2a9fca264faa93561f72b5fc885fec.gif')" }}>
         <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
-          <div className="text-4xl text-white font-bold text-center">
+          <div className="text-3xl md:text-4xl text-white font-bold text-center p-6">
             <TypingAnimation words={words} /> 
           </div>
         </div>
@@ -63,23 +64,7 @@ function DashBoard() {
       </div>
       </div>
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8 px-8">
-          <div className="container mx-auto">
-            <div className="flex justify-between items-center">
-              <div>
-                <h3 className="text-xl font-semibold">E-Sports Dashboard</h3>
-                <p className="mt-2">Your go-to platform for all things e-sports!</p>
-              </div>
-              <div>
-                <ul className="flex space-x-4">
-                  <li><Link to="/about" className="hover:text-gray-300">About Us</Link></li>
-                  <li><Link to="/contact" className="hover:text-gray-300">Contact</Link></li>
-                  <li><Link to="/terms" className="hover:text-gray-300">Terms of Service</Link></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </footer>
+      <Footer/>
     </>
   );
 }

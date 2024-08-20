@@ -14,7 +14,7 @@ const Landing = () => {
       <div className="relative w-full h-screen bg-cover bg-center" style={{ backgroundImage: "url('https://t4.ftcdn.net/jpg/05/63/31/87/360_F_563318702_OMWeOJ39uEeb76lulVtLTm80zwsbWYGd.jpg')" }}>
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-center mb-4">Welcome to Battelfy</h1>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-center mb-4">Welcome to Battelfy</h1>
           <p className="text-xl md:text-2xl lg:text-3xl mb-8 text-center max-w-2xl">Your ultimate platform for everything e-sports. Connect, compete, and thrive!</p>
           <Link to="/register" className="px-6 py-3 bg-indigo-600 rounded-xl text-lg md:text-xl hover:bg-indigo-700">Get Started</Link>
         </div>
@@ -99,7 +99,7 @@ const Landing = () => {
             <img src="https://hpro-web-assets.s3.amazonaws.com/insights/uploads/2020/08/HARMAN_Esports-Arena_horiz.jpg" alt="Image 1" className="w-full h-auto rounded-md" />
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <img src="https://hpro-web-assets.s3.amazonaws.com/insights/uploads/2020/08/HARMAN_Esports-Arena_horiz.jpg" alt="Image 2" className="w-full h-auto rounded-md" />
+            <img src="https://senet-cloud.s3.eu-central-1.amazonaws.com/assets/images/6064a58040229/hyperx_esports_arena_las_vegas.jpg" alt="Image 2" className="w-full h-auto rounded-md" />
           </div>
         </div>
         

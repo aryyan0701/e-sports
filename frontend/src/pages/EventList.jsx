@@ -12,6 +12,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { getEvents, regiForEvent } from "../redux/event/eventApi";
 import DashNavbar from "../components/DashNavbar";
 import ScrollToTop from "../components/ScrollToTop";
+import Footer from "../components/Footer";
 
 Modal.setAppElement("#root");
 
@@ -304,6 +305,7 @@ const EventList = () => {
           </Modal>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

@@ -61,7 +61,7 @@ const Register = () => {
       <Navbar />
       <div className="relative flex justify-center items-center min-h-screen bg-cover bg-center pt-10" style={{ backgroundImage: "url('https://images4.alphacoders.com/132/1320095.jpeg')" }}>  <Toaster/>
         <div className="absolute inset-0 bg-black opacity-50"></div> {/* Optional: For better readability */}
-        <div className="relative z-10 w-full max-w-lg md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
+        <div className="relative z-10 w-full max-w-sm md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-white">Register</h2>
           <form onSubmit={onSubmit} className="space-y-6" encType="multipart/form-data">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -156,7 +156,7 @@ const Register = () => {
                 "Register"
               )}
             </button>
-            <p className="text-sm text-blue-600 text-center">Already have an account..? <Link to='/login' className="font-semibold text-white">Click Here</Link></p>
+            <p className="text-sm font-semibold text-blue-600 text-center">Already have an account..? <Link to='/login' className="font-semibold text-white">Click Here</Link></p>
           </form>
           {authError && <p className="mt-4 text-center text-sm text-red-400">{authError}</p>}
           {message && <p className="mt-4 text-center text-sm text-green-400">{message}</p>}

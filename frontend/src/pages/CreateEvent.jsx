@@ -7,6 +7,7 @@ import { createEvent } from '../redux/event/eventApi';
 import { clearMessage } from '../redux/event/eventSlice';
 import { checkUser } from "../redux/user/userSlice";
 import toast, { Toaster } from "react-hot-toast";
+import Footer from "../components/Footer";
 
 const CreateEvent = () => {
   const [formData, setFormData] = useState({
@@ -35,8 +36,8 @@ const CreateEvent = () => {
     if (eventMessage) {
       const timer = setTimeout(() => {
         dispatch(clearMessage());
-      }, 3000); // Clear the message after 3 seconds
-      return () => clearTimeout(timer); // Cleanup timer on component unmount
+      }, 3000); 
+      return () => clearTimeout(timer); 
     }
   }, [eventMessage, dispatch]);
 
@@ -73,14 +74,14 @@ const CreateEvent = () => {
     <>
       <DashNavbar />
       <div
-        className="relative flex justify-center items-center min-h-screen bg-cover bg-center pt-10"
+        className="relative flex justify-center items-center min-h-screen bg-cover bg-center pt-10 pb-10"
         style={{
           backgroundImage: "url('https://weezevent.com/wp-content/uploads/2018/10/15140712/compet_esport.jpg')"
         }}
       >
         <Toaster />
         <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative z-10 w-full max-w-lg md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
+        <div className="relative z-10 w-full max-w-sm md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-white">Create Event</h2>
           {role === "organizer" ? (
             <form onSubmit={onSubmit} className="space-y-6">
@@ -181,6 +182,7 @@ const CreateEvent = () => {
           )}
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

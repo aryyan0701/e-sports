@@ -62,7 +62,7 @@ const Login = () => {
       >
         <Toaster/>
         <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative z-10 w-full max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
+        <div className="relative z-10 w-full max-w-sm md:max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center text-white">Login</h2>
           <form onSubmit={onSubmit} className="space-y-6">
             <div>
@@ -110,7 +110,7 @@ const Login = () => {
                 "Login"
               )}
             </button>
-            <p className="text-sm text-center">
+            <p className="text-sm font-semibold text-blue-600 text-center">
               Don't have an account..?{" "}
               <Link to="/register" className="font-semibold text-white">
                 Click Here

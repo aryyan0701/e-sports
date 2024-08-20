@@ -7,6 +7,7 @@ import {
   fetchHeadtoHeadMatches,
 } from "../redux/news/newsApi";
 import ScrollToTop from "../components/ScrollToTop";
+import Footer from "../components/Footer";
 
 function News() {
   const [activeSection, setActiveSection] = useState("leagues");
@@ -166,6 +167,7 @@ function News() {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

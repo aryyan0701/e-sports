@@ -53,7 +53,7 @@ const DashNavbar = () => {
                 <div className="w-10 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src="https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png"
+                    src="https://cdn-icons-png.flaticon.com/512/4715/4715328.png"
                   />
                 </div>
               </div>
