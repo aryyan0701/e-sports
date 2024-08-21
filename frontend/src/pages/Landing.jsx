@@ -16,7 +16,7 @@ const Landing = () => {
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-center mb-4">Welcome to Battelfy</h1>
-          <p className="text-xl md:text-2xl lg:text-3xl mb-8 text-center max-w-2xl">Your ultimate platform for everything e-sports. Connect, compete, and thrive!</p>
+          <p className="text-xl md:text-2xl lg:text-3xl mb-8 text-center max-w-sm md:max-w-xl">Ultimate platform for everything e-sports. Connect, compete, and thrive!</p>
           <Link to="/register" className="px-6 py-3 bg-indigo-600 rounded-xl text-lg md:text-xl hover:bg-indigo-700">Get Started</Link>
         </div>
       </div>

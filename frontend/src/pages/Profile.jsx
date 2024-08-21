@@ -9,7 +9,6 @@ import ScrollToTop from "../components/ScrollToTop";
 import Footer from "../components/Footer";
 
 const Profile = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,14 +19,6 @@ const Profile = () => {
   const { user, role, status, error, createdEvents, registeredEvents } =
     useSelector((state) => state.user);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
-  };
 
   useEffect(() => {
     dispatch(checkUser("User data not found"));
@@ -141,7 +132,7 @@ const Profile = () => {
                         ))
                       ) : (
                         <p className="text-lg text-gray-300">
-                          No events found.
+                          You haven't created any events yet.
                         </p>
                       )}
                     </div>
@@ -180,7 +171,7 @@ const Profile = () => {
                         ))
                       ) : (
                         <p className="text-lg text-gray-300">
-                          No events found.
+                          You haven't register for any events yet.
                         </p>
                       )}
                     </div>
