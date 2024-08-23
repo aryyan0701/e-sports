@@ -5,6 +5,8 @@ import { ClipLoader } from "react-spinners";
 import { loginUser } from "../redux/auth/authApi";
 import { useDispatch, useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
+import { FaEye } from "react-icons/fa6";
+import { FaEyeSlash } from "react-icons/fa6";
 
 const Login = () => {
   const location = useLocation();
@@ -13,6 +15,7 @@ const Login = () => {
     password: location.state?.password || "",
   });
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -90,7 +93,7 @@ const Login = () => {
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"} 
                 name="password"
                 value={password}
                 onChange={onChange}
@@ -98,6 +101,12 @@ const Login = () => {
                 placeholder="Enter your password"
                 className="w-full px-4 py-2 mt-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring focus:ring-indigo-500 focus:border-indigo-500"
               />
+              <div
+              className="absolute inset-y-0 right-10 top-16 flex items-center px-3 text-md cursor-pointer text-gray-400"
+              onClick={() => setShowPassword(!showPassword)} 
+            >
+              {showPassword ? <FaEye /> : <FaEyeSlash />} 
+            </div>
             </div>
             <button
               type="submit"
